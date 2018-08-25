@@ -34,7 +34,6 @@ function toggleDebugMode(){
 }
 
 function main(){
-  var screen = new TitleScreen();
   var game = new GameScreen();
 
   var timeOfLastLoop = performance.now();
