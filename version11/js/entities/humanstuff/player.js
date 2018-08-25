@@ -1,0 +1,236 @@
+class Player extends Entity{
+  constructor(inCave, pos, inventory){
+    super(inCave, pos);
+    this.cameraPos = this.pos;
+    this.hookConnectors = {};
+    this.slowSpd = 10;
+    this.fastSpd = 2*this.slowSpd;
+    this.spd = this.slowSpd;
+    this.dir = new Vector(0,0);
+    this.doingThrow = false;
+    this.inventory = inventory ? inventory : new Inventory(this);
+    this.isDead = false;
+    this.maxMaxHp = 15;
+    this.minMaxHp = 3;
+    this.maxHp = 5;
+    this.throwSpd = 8;
+    this.hp = this.maxHp;
+    this.drawSize.set(this.size.plus(new Vector(0, 3/8)));
+    this.images = {frontwalking:new Sprite(assetManager.getImage("playerwalking"),
+                            new Vector(0, -3/8), this.drawSize, 4, 12),
+                  front:new Sprite(assetManager.getImage("player"),
+                            new Vector(0, -3/8), this.drawSize)};
+    this.makeShadow();
+    this.image = this.images.frontwalk;
+    this.itemPickupDist = 2;
+    this.caveFadeFullPercent = 0.1;
+    this.caveFadeDistPercent = 0.55;
+
+    this.defaultMoveStyle = new InputMove(this);
+    this.setMoveStyle(this.defaultMoveStyle);
+
+    new State("walking", this).start();
+    new State("slowwalking", this, 0.8);
+    new State("grabbing", this);
+  }
+  pickupItems(){
+    var itemClosest = null;
+    var dist = this.itemPickupDist;
+    for(var item of this.inCave.entities.get("items")){
+      if(this.box.getCenter().dist(item.box.getCenter()) < dist){
+        dist = this.box.getCenter().dist(item.box.getCenter());
+        itemClosest = item;
+      }
+    }
+    if(itemClosest && this.collect(itemClosest)){
+      itemClosest.removeFromInCave();
+    }
+  }
+  addToCave(inCave){
+    super.addToCave(inCave);
+    this.inCave.entities.addToCategory(this, "players");
+    this.inCave.entities.addToCategory(this, "grounds");
+    this.inCave.entities.addToCategory(this, "damagables");
+    this.inCave.entities.addToCategory(this, "collidables");
+  }
+  addItemSlots(itemClass, amt){
+    this.inventory.addItemSlots(itemClass, amt);
+  }
+  collect(item){
+    if(item.useOnCollect(this)){
+      return true;
+    }
+    if(this.inventory.add(item)){
+      return super.collect(item);
+    }
+    return false;
+  }
+  // draw(canv){
+  //   super.draw(canv);
+  //   if(this.pressingThrow){
+  //   }
+  // }
+  displayScreen(canv){
+    var invShift = this.inventory.getShift();
+    this.displayGame(canv, invShift + NOWWINDOWSIZE/2-this.cameraPos.x-this.size.x/2,
+                      NOWWINDOWSIZE/2-this.cameraPos.y-this.size.y/2);
+    //canv.globalAlpha = 0.8;
+    //canv.drawImage(this.darknessImage, INVWIDTH, 0, canv.canvas.width-INVWIDTH, canv.canvas.height);
+    //canv.globalAlpha = 1;
+    Fire.drawLight(canv);
+    this.inventory.draw(canv);
+    if(this.inCave.type === "link"){
+      var blackPercent = 0.33;
+      var percent = this.inCave.caveMap.getPercentTraveled(this.pos);
+      var alpha = bounded(0,1, (percent/(1-blackPercent)));
+      if(alpha < 1){
+        canv.globalAlpha = alpha;
+        canv.fillStyle = "#0F1521";
+        canv.fillRect(0, 0, canv.canvas.width, canv.canvas.height);
+        canv.globalAlpha = 1;
+      }else{
+        this.inCave.cluster.finishLevel();
+      }
+    }else if(this.inCave.type === "startlink"){
+      var blackPercent = 0.33;
+      var percent = 1-this.inCave.caveMap.getPercentTraveled(this.pos);
+      var alpha = bounded(0,1, (percent/(1-blackPercent)));
+      canv.globalAlpha = alpha;
+      canv.fillStyle = "#0F1521";
+      canv.fillRect(0, 0, canv.canvas.width, canv.canvas.height);
+      canv.globalAlpha = 1;
+    }
+    //ctx.fillStyle = "purple";
+    //ctx.fillText("cave: "+this.inCave.number,430+INVWIDTH,100);
+    //ctx.fillStyle = "white";
+    //ctx.fillText("Game by David Davini.  Graphics and Music by Dany Weiss.",10+INVWIDTH,CSIZE);
+  }
+  drawHurtShade(canv, shiftX, shiftY){
+    canv.globalAlpha = 0.5;
+    canv.fillStyle = "#4c1414";
+    canv.fillRect(0, 0, canv.canvas.width, canv.canvas.height);
+    canv.globalAlpha = 1;
+  }
+  getCaveFadeAlpha(hookConnector){
+    if(this.pos.dist(hookConnector.pos)/(CONNECTWINDOWSIZE) > this.caveFadeFullPercent){
+      var a = ((this.pos.dist(hookConnector.pos)/CONNECTWINDOWSIZE)-this.caveFadeFullPercent)/
+        (this.caveFadeDistPercent-this.caveFadeFullPercent);
+      return bounded(0,1,a);
+    }
+    return 0;
+  }
+  drawHookCaveFade(canv, hookConnector, fullPercent, distPercent){
+    var caveFadeAlpha = this.getCaveFadeAlpha(hookConnector);
+    if(caveFadeAlpha){
+      canv.globalAlpha = caveFadeAlpha;
+      canv.fillStyle = "black";
+      canv.fillRect(0,0, canv.canvas.width, canv.canvas.height);
+      canv.globalAlpha = 1;
+    }
+    // if(this.pos.dist(hookConnector.pos)/(CONNECTWINDOWSIZE) > fullPercent){
+    //   var a = ((this.pos.dist(hookConnector.pos)/CONNECTWINDOWSIZE)-fullPercent)/(distPercent-fullPercent);
+    //   canv.globalAlpha = bounded(0,1,a);
+    //   canv.fillStyle = "black";
+    //   canv.fillRect(0,0, canv.canvas.width, canv.canvas.height);
+    //   canv.globalAlpha = 1;
+    // }
+  }
+  displayGame(canv, shiftX, shiftY){
+    for(var id in this.hookConnectors){
+      var hookConnectorShift = this.hookConnectors[id].getShift();
+      if(!this.hookConnectors[id].connectedCave)
+        console.log("uh oh, nopes");
+      this.hookConnectors[id].connectedCave.drawBack(canv, hookConnectorShift.x+shiftX, hookConnectorShift.y+shiftY, this.pos.minus(hookConnectorShift));
+
+      this.drawHookCaveFade(canv, this.hookConnectors[id], 0.1, 0.55);
+    }
+    this.inCave.drawBack(canv, shiftX, shiftY, this.pos.copy());
+    for(var id in this.hookConnectors){
+      var hookConnectorShift = this.hookConnectors[id].getShift();
+
+      var caveFadeAlpha = this.getCaveFadeAlpha(this.hookConnectors[id]);
+      if(caveFadeAlpha)
+        canv.globalAlpha = 1-caveFadeAlpha;
+      this.hookConnectors[id].connectedCave.drawFront(canv, hookConnectorShift.x+shiftX, hookConnectorShift.y+shiftY, this.pos.minus(hookConnectorShift));
+      canv.globalAlpha = 1;
+    }
+    this.inCave.drawFront(canv, shiftX, shiftY, this.pos.copy());
+  }
+  hookOnto(connector){
+    this.hookConnectors[connector.id] = connector;
+  }
+  update(dt){
+    this.image = this.vel.length() > 0 && !(this.moveStyle instanceof FlyMove) ? this.images.frontwalking : this.images.front;
+    if(DEBUG)
+      this.hp = this.maxHp;
+    this.inventory.update(dt);
+    super.update(dt);
+  }
+  unhookFrom(connector){
+    delete this.hookConnectors[connector.id];
+  }
+  flipFlop(connector){
+    // for(var id in this.inCave.caveMap.connectors){
+    //   delete this.inCave.caveMap.connectors[id].connectedCave.adjacentPlayers[this.id];
+    // }
+    for(var id in this.hookConnectors){
+      if(this.hookConnectors[id].parentCave === connector.parentCave)
+        this.unhookFrom(this.hookConnectors[id]);
+    }
+    super.flipFlop(connector);
+    this.unhookFrom(connector);
+    this.hookOnto(connector.connectedConnector);
+    if(this.states.walking.on){
+      this.states.walking.finish();
+    }
+  }
+  prepareThrow(){
+    this.throwItem = this.inventory.getSelectedItem();
+    if(this.throwItem){
+      this.throwItem.removedFromInventory(this);
+      this.throwItem.addToCave(this.inCave);
+      super.prepareThrow(this.throwItem, new Vector(0, -this.throwItem.drawSize.y*0.9));
+    }else{
+      //console.log("no throw item");
+    }
+  }
+  setMoveStyle(moveStyle){
+    if(moveStyle instanceof CarryMove){
+      this.cameraPos = moveStyle.straightEntityPos;
+      this.inCave.entities.removeFromCategory(this, "collidables");
+    } else if (moveStyle instanceof FlyMove){
+      this.cameraPos = this.pos;
+    } else if (moveStyle instanceof InputMove){
+      this.cameraPos = this.pos;
+      this.inCave.entities.addToCategory(this, "collidables");
+    }
+    super.setMoveStyle(moveStyle);
+  }
+}
+
+Player.prototype.collisionHandles = {
+};
+Player.prototype.stateHandleStarts = {
+  dead: function(){
+    this.moveStyle = new IdleMove(this);
+    this.color = "purple";
+  },
+  walking: function(){
+    var walkingDir = new Vector(0, -1);
+    this.vel.set(walkingDir.times(this.spd));
+    this.setMoveStyle(new PhysicsMove(this));
+  },
+  slowwalking: function(){
+    var walkingDir = new Vector(0, -1);
+    this.vel.set(walkingDir.times(this.spd/2));
+  }
+};
+Player.prototype.stateHandleFinishes = {
+  walking: function(dt){
+    this.states.slowwalking.start();
+  },
+  slowwalking: function(dt){
+    this.vel.set(new Vector(0,0));
+    this.setMoveStyle(this.defaultMoveStyle);
+  }
+};
