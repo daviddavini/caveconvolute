@@ -1,12 +1,4 @@
-//var mongojs = require('mongojs');
-var db = null;//mongojs('databasefilename', ['account', 'progress']);
-
-// db.account.insert({username:'b', password:'bb'});
-// db.account.find({username:'b', password'bb'}, function(err, res){
-//   if(res.length > 0){
-//     console.log("username exists");
-//   }
-// });
+require('./database');
 
 var express = require('express');
 var app = express();
