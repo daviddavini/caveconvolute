@@ -1,13 +1,16 @@
 class TitleScreen extends Screen{
-  constructor(pos, size){
+  constructor(pos, size, socket){
     super(pos, size);
+    this.socket = socket;
+    this.explorerInfo = null;
+    socket.on('createAccountReturn', wrapFunction(this.newExplorerReturn, this));
     this.buttons = [];
     this.buttons.newExplorer = this.createButton("   new   explorer",
         this.pos.x+this.size.x*0.25, this.pos.y+this.size.y*0.8, 150,
         wrapFunction(this.newExplorer, this));
     this.buttons.oldExplorer = this.createButton("   old   explorer",
         this.pos.x+this.size.x*0.5, this.pos.y+this.size.y*0.8, 150,
-        wrapFunction(this.nextScreen, this));
+        wrapFunction(this.oldExplorer, this));
     this.buttons.leaderBoard = this.createButton("   leader   board",
         this.pos.x+this.size.x*0.75, this.pos.y+this.size.y*0.8, 150,
         wrapFunction(this.nextScreen, this));
@@ -18,11 +21,21 @@ class TitleScreen extends Screen{
       this.pos.x+this.size.x*0.7, this.pos.y+this.size.y*0.58, 220);
     this.backgroundColor = "#253245";
     this.fireSprite = new Sprite(assetManager.getImage("firebig"), new Vector(0,0), new Vector(1,1), 3, 6);
-    this.doDraw(ctx);
   }
   newExplorer(){
-
+    this.explorerInfo = {name:this.inputName.value(), code:this.inputPass.value()};
+    this.socket.emit('createAccount', {
+      username: this.explorerInfo.name,
+      password: this.explorerInfo.code
+    });
   }
+  newExplorerReturn(data){
+    if(data.success){
+      this.nextScreen(new GameScreen(this.pos, this.size, this.socket, this.explorerInfo));
+    }else{
+      console.log("failure");
+    }
+  };
   oldExplorer(){
 
   }

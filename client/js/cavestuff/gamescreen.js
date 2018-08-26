@@ -1,7 +1,8 @@
 class GameScreen extends Screen{
-  constructor(pos, size){
+  constructor(pos, size, socket, explorerInfo){
     super(pos, size); //not used yet
     this.level = 1;
+    this.explorerInfo = explorerInfo;
     this.playerInfo = {
       hp: 5,
       maxHp: 5,
@@ -24,6 +25,7 @@ class GameScreen extends Screen{
   setForLevelSetup(){
     this.drawLoadScreen();
     this.doLevelSetupOnUpdate = true;
+    this.caveOpen = false;
   }
   levelSetup(level){
     Fire.reset();
@@ -31,6 +33,7 @@ class GameScreen extends Screen{
     this.caves = {};
     this.cluster = new Cluster(this, levelInfo);
     this.player = this.cluster.addPlayer(this.playerInfo);
+    this.caveOpen = true;
   }
   levelChange(){
     this.level++;
@@ -49,7 +52,8 @@ class GameScreen extends Screen{
   draw(canv){
     canv.fillStyle = BACKCOLOR;
     canv.fillRect(0, 0, canv.canvas.width, canv.canvas.height);
-    this.player.displayScreen(canv);
+    if(this.caveOpen)
+      this.player.displayScreen(canv);
     super.draw(canv);
   }
   drawLoadScreen(){

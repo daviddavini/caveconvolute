@@ -16,7 +16,9 @@ var io = require('socket.io')(serv,{});
 io.sockets.on('connection', function(socket){
   console.log('socket connection');
 
-  socket.on('happy', function(data){
-    console.log('im happy', data.reason);
+  socket.on('createAccount', function(data){
+    Database.createAccount(data, function(success){
+      socket.emit('createAccountReturn', {success:success});
+    });
   })
 })

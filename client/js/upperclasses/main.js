@@ -34,7 +34,7 @@ function toggleDebugMode(){
 }
 
 function main(){
-  var screen = new TitleScreen();
+  var screen = new TitleScreen(new Vector(0,0), new Vector(ctx.canvas.width, ctx.canvas.height), socket);
 
   var timeOfLastLoop = performance.now();
   var dtExpected = 1/FPS;
@@ -48,10 +48,10 @@ function main(){
   setInterval(function(){
     //ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
     screen.update(dt);
-    screen.draw(ctx);
-    if(screen.gotoNextScreen){
-      screen = new GameScreen();
+    if(screen.followScreen){
+      screen = screen.followScreen;
     }
+    screen.draw(ctx);
 
     printedFPSCount += dt;
     if(printedFPSCount >= printedFPSTime){

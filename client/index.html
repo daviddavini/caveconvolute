@@ -11,7 +11,9 @@
       <canvas id="ctx" width="900" height="750"style="border:3px solid #425C7D;"></canvas>
     </div>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="client/js/communication.js"></script>
+    <script>
+      var socket = io();
+    </script>
     <!-- <script src="test.js"></script> -->
     <script src="client/lib/CanvasInput/CanvasInput.min.js"></script>
     <script src="client/js/tools/vector.js"></script>

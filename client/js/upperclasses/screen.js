@@ -7,14 +7,14 @@ class Screen {
       this.pos = new Vector(0,0);
       this.size = new Vector(ctx.canvas.width, ctx.canvas.height);
     }
-    this.gotoNextScreen = false;
+    this.followScreen = null;
     this.backgroundColor = "#000";
     console.log(this.pos, this.size);
   }
   endScreen(){
   }
-  nextScreen(){
-    this.gotoNextScreen = true;
+  nextScreen(followScreen){
+    this.followScreen = followScreen;
     this.endScreen();
   }
   update(dt){
@@ -22,6 +22,8 @@ class Screen {
   drawBackground(canv){
     canv.fillStyle = this.backgroundColor;
     canv.fillRect(this.pos.x, this.pos.y, this.size.x, this.size.y);
+  }
+  doDraw(canv){
   }
   draw(canv){
   }

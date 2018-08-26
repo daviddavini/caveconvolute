@@ -19,13 +19,13 @@ Database.isValidPassword = function(data, cb){
   });
 }
 
-Database.addUser = function(data, cb){
+Database.createAccount = function(data, cb){
   if(!USE_DB){
-    return cb();
+    return cb(data.username === "david" && data.password === "davini");
   }
-  db.account.insert({username:'b', password:'bb'}, function(err){
+  db.account.insert({username:data.username, password:data.password}, function(err){
     //save user progress too...
-    cb();
+    cb(true);
   });
 }
 
