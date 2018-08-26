@@ -17,8 +17,8 @@ class Cave {
     if(type === "home"){
       var groundImages = assetManager.getImagePack("brownground");
       this.caveMap = new RoomMap(this, groundImages, 1, 9, Math.PI*(5/4)+(Math.PI*(1/2))*Math.random());
-      this.spawnEntity(Fire, this.caveMap.getCenter());
-      this.spawnEntity(Rock);
+      this.spawnEntity(Fire, {}, this.caveMap.getCenter());
+      this.spawnEntity(Rock, {});
     } else if (type === "strand"){
       this.caveMap = new StrandMap(this, 8, 2);
       for(var pos = this.useLandmarkArea().pos; pos; pos = this.useLandmarkArea().pos){
@@ -30,35 +30,38 @@ class Cave {
     } else if (type === "oasis"){
       var groundImages = assetManager.getImagePack("greenground");
       this.caveMap = new RoomMap(this, groundImages, 1, 10);
-      this.spawnEntity(Pond, this.caveMap.getCenter());
+      this.spawnEntity(Pond, {}, this.caveMap.getCenter());
     } else if (type === "dungeon"){
       var groundImages = assetManager.getImagePack("darkground");
       this.caveMap = new RoomMap(this, groundImages, 1, 12);
-      this.spawnEntity(Gem, this.caveMap.getCenter());
+      this.spawnEntity(Gem, {}, this.caveMap.getCenter());
     } else if (type === "traderoom"){
       var groundImages = assetManager.getImagePack("blueground");
       this.caveMap = new RoomMap(this, groundImages, 1, 13, Math.PI*2*Math.random(), 1);
       var traderPoss = this.caveMap.circlePoss(4);
       for(var i = 0; i < 2; i++){
-        this.spawnEntity(Man, traderPoss[i],
-          {type:"trader", valueRange:this.cluster.levelInfo.traderValueRange, way:"give"});
+        this.spawnEntity(Man,
+          {type:"trader", valueRange:this.cluster.levelInfo.traderValueRange, way:"give"},
+          traderPoss[i]);
       }
       for(var i = 2; i < 4; i++){
-        this.spawnEntity(Man, traderPoss[i],
-          {type:"trader", valueRange:this.cluster.levelInfo.traderValueRange, way:"receive"});
+        var trader = this.spawnEntity(Man,
+          {type:"trader", valueRange:this.cluster.levelInfo.traderValueRange, way:"receive"},
+          traderPoss[i]);
+        console.log(trader);
       }
     } else if (type === "exit"){
       var groundImages = assetManager.getImagePack("darkground");
       this.caveMap = new RectMap(this, groundImages, [], ["down"], 15, 25);
-      var gate = this.spawnEntity(Gate, this.caveMap.getGateSpot());
+      var gate = this.spawnEntity(Gate, {}, this.caveMap.getGateSpot());
       var poss = this.caveMap.getBankerSpots();
       var defInfos = [{type:"banker", exlevel:2, exdir:"down"}, {type:"banker", exlevel:1, exdir:"down"},
                       {type:"banker", exlevel:2, exdir:"up"}, {type:"banker", exlevel:1, exdir:"up"}];
       for(var i = 0; i < poss.length; i++){
-        this.spawnEntity(Man, poss[i], defInfos[i]);
+        this.spawnEntity(Man, defInfos[i], poss[i]);
       }
-      this.spawnEntity(Man, this.caveMap.getManSpot(),
-        {type:"keeper", gate:gate, valueRange:this.cluster.levelInfo.keeperValueRange});
+      this.spawnEntity(Man, {type:"keeper", gate:gate, valueRange:this.cluster.levelInfo.keeperValueRange},
+        this.caveMap.getManSpot());
     } else if (type === "link"){
       var groundImages = assetManager.getImagePack("darkground");
       this.caveMap = new RectMap(this, groundImages, ["down"], [], 5, 41);
@@ -67,7 +70,7 @@ class Cave {
       this.caveMap = new RectMap(this, groundImages, ["up"], [], 5, 41);
     }
   }
-  finishLevel(){
+  finishLevel(playerInfo){
   }
   useLandmarkArea(){
     var keyArea = this.caveMap.useRandomKeyArea();
@@ -118,7 +121,7 @@ class Cave {
   addSpawnManager(spawnManager){
     this.spawnManagers.push(spawnManager);
   }
-  spawnEntity(entityClass, pos, definingParam){
+  spawnEntity(entityClass, definingParam, pos){
     var entity = null;
     if(pos)
       entity = new entityClass(this, pos, definingParam);
@@ -126,12 +129,12 @@ class Cave {
       entity = new entityClass(this, this.caveMap.randomPos(), definingParam);
     return entity;
   }
-  spawnEntityGroup(entityClass, numb){
+  spawnEntityGroup(entityClass, defInfo, numb){
     var entityPosGroup = this.caveMap.randomPosGroup(numb, Math.sqrt(numb)*3);
-    var groupId = Math.random();
     var entities = [];
+    var groupId = Math.random();
     for(var entityPos of entityPosGroup){
-      entities.push(new entityClass(this, entityPos.add(Vector.randUnit().times(0.3)), groupId));
+      entities.push(new entityClass(this, entityPos.add(Vector.randUnit().times(0.3)), defInfo, groupId));
     }
   }
   addedEntity(entity){

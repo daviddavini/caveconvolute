@@ -1,5 +1,5 @@
 class Monster extends Entity{
-  constructor(inCave, pos){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     this.defaultMoveStyle = new BuzzMove(this, 0);
     this.setMoveStyle(this.defaultMoveStyle);

@@ -1,5 +1,5 @@
 class Pond extends Entity {
-  constructor(inCave, pos){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     this.sideLength = 3;
     this.image = "lightblue";

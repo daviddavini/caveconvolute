@@ -1,5 +1,5 @@
 class Holder extends Entity{
-  constructor(inCave, pos, itemClass){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     this.weight = 1;
     this.level = 1;
@@ -8,7 +8,7 @@ class Holder extends Entity{
     this.drawPosChange.set(new Vector(-0.1, -0.1));
     this.drawSize.set(new Vector(0.8, 0.8));
     this.numbItemSpots = 1;
-    this.itemClass = itemClass ? itemClass : [Entity, Fuel, Rock][randInt(0,3)];
+    this.itemClass = defInfo.itemClass ? defInfo.itemClass : [Entity, Fuel, Rock][randInt(0,3)];
     if(this.itemClass === Rock){
       this.value = (3);
       this.image = new Sprite(assetManager.getImage(["rockoutlinefull"]), this.drawPosChange, this.drawSize);
@@ -22,6 +22,11 @@ class Holder extends Entity{
     this.maxHp = 1;
     this.hp = this.maxHp;
     this.makeShadow();
+  }
+  getInfo(){
+    return {
+      itemClass: this.itemClass,
+    };
   }
   sameAs(entity){
     if(super.sameAs(entity)){

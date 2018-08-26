@@ -5,6 +5,9 @@ class Man extends Entity{
     this.hp = this.maxHp;
     this.spd = 2;
     this.type = defInfo.type;
+    this.valueRange = defInfo.valueRange;
+    this.showTrade = true;
+
     this.size.set(new Vector(1.5,1.5));
     this.drawPosChange.set(new Vector(0, -1));
     this.drawSize.set(new Vector(1.5,2.5));
@@ -39,30 +42,28 @@ class Man extends Entity{
     //   {className:Wing, defInfo:null},
     // ]
     this.receiveTradeInfos = [
-      {className:Eye, defInfo:null},
-      {className:Flower, defInfo:null},
-      {className:Wing, defInfo:null},
-      {className:Slime, defInfo:null},
-      {className:Gem, defInfo:null}
+      {className:Eye, defInfo:{}},
+      {className:Flower, defInfo:{}},
+      {className:Wing, defInfo:{}},
+      {className:Slime, defInfo:{}},
+      {className:Gem, defInfo:{}}
     ];
     // for(var a of this.receiveTradeInfos){
     //   console.log(a.className, this.getTradeValue(a));
     // }
     this.giveTradeInfos = [
-      {className:Gem, defInfo:null},
-      {className:Fuel, defInfo:null},
-      {className:Rock, defInfo:null},
-      {className:Stone, defInfo:"speed"},
-      {className:Stone, defInfo:"strength"},
-      {className:Holder, defInfo:Entity},
-      {className:Holder, defInfo:Fuel},
-      {className:Holder, defInfo:Rock},
-      {className:Heart, defInfo:null}
+      {className:Gem, defInfo:{}},
+      {className:Fuel, defInfo:{}},
+      {className:Rock, defInfo:{}},
+      {className:Stone, defInfo:{type:"speed"}},
+      {className:Stone, defInfo:{type:"strength"}},
+      {className:Holder, defInfo:{className:Entity}},
+      {className:Holder, defInfo:{className:Rock}},
+      {className:Holder, defInfo:{className:Fuel}},
+      {className:Heart, defInfo:{}}
     ];
     this.takeTradeInfos = [
-      {className:Gem, requiredAmt:1, defInfo:null},
-      {className:Flower, requiredAmt:2, defInfo:null},
-      {className:Slime, requiredAmt:3, defInfo:null}
+      {className:Rock, requiredAmt:1, defInfo:{}}
     ];
     this.trades = [];
 
@@ -78,6 +79,7 @@ class Man extends Entity{
       if(defInfo.valueRange){
         this.addRandTradeByValueRange(defInfo.valueRange, defInfo.way);
       } else{
+        console.log("yikes")
         for(var tradeInfo of defInfo.tradeInfos){
           if(tradeInfo.way === "give")
             this.addGiveTrade(tradeInfo.className, tradeInfo.defInfo);
@@ -90,7 +92,11 @@ class Man extends Entity{
 
     }else if (this.type === "keeper"){
       //NEEDS:  gate, tradeInfos (class, defInfo)
-      this.image = new Sprite(assetManager.getImage("gatekeeper"), this.drawPosChange, this.drawSize);
+      var height = 3;
+      this.size.set(new Vector(1,height-1));
+      this.drawSize.set(new Vector(height, height));
+      this.drawPosChange.set(new Vector(this.size.x/2 - this.drawSize.x/2, this.size.y-this.drawSize.y));
+      this.image = new Sprite(assetManager.getImage("gatekeeper"), this.drawPosChange, this.drawSize, 3, 6);
       this.gate = defInfo.gate;
       this.walkDir = new Vector(1,0);
 
@@ -121,13 +127,13 @@ class Man extends Entity{
       }
 
       if(this.exlevel === 1 && this.exdir === "up"){
-        this.addTrade(Coin, 3, 1, Coin, 1, 2);
+        this.addTrade(Coin, 3, {level:1}, Coin, 1, {level:2});
       } else if(this.exlevel === 1 && this.exdir === "down"){
-        this.addTrade(Coin, 1, 2, Coin, 3, 1);
+        this.addTrade(Coin, 1, {level:2}, Coin, 3, {level:1});
       } else if(this.exlevel === 2 && this.exdir === "up"){
-        this.addTrade(Coin, 3, 2, Coin, 1, 3);
+        this.addTrade(Coin, 3, {level:2}, Coin, 1, {level:3});
       } else if(this.exlevel === 2 && this.exdir === "down"){
-        this.addTrade(Coin, 1, 3, Coin, 3, 2);
+        this.addTrade(Coin, 1, {level:3}, Coin, 3, {level:2});
       }
       this.tradeStatic = true;
     }
@@ -143,6 +149,14 @@ class Man extends Entity{
     new State("rejectBuffer", this, 0.5);
     new State("giveBuffer", this, 0.5);
     new State("giveProcessBuffer", this, 1);
+  }
+  getInfo(){
+    return {
+      type: this.type,
+      valueRange: this.valueRange,
+      exlevel: this.exlevel,
+      exdir: this.exdir,
+    };
   }
   addToCave(inCave){
     super.addToCave(inCave);
@@ -205,7 +219,7 @@ class Man extends Entity{
   }
   randValueFrom(avg){
     var chance = Math.random();
-    var list = [1,3,6,3,1];
+    var list = [1,3,8,3,1];
     var midIndex = 2;
     var sum = 0;
     for(var l of list)
@@ -254,7 +268,7 @@ class Man extends Entity{
     var giveAmt = amts.amt1;
     var requiredAmt = amts.amt2;
     //classModel.value = Math.pow(3, classModel.level-1);
-    this.addTrade(className, requiredAmt, definingParam, Coin, giveAmt, classModel.level);
+    this.addTrade(className, requiredAmt, definingParam, Coin, giveAmt, {level:classModel.level});
   }
   addGiveTrade(className, definingParam){
     var classModel = new className(this.inCave, new Vector(0,0), definingParam);
@@ -262,7 +276,7 @@ class Man extends Entity{
     var giveAmt = amts.amt2;
     var requiredAmt = amts.amt1;
     //classModel.value = Math.pow(3, classModel.level-1);
-    this.addTrade(Coin, requiredAmt, classModel.level, className, giveAmt, definingParam);
+    this.addTrade(Coin, requiredAmt, {level:classModel.level}, className, giveAmt, definingParam);
   }
   addTrade(className, requiredAmt, definingParam, giveClassName, giveAmt, giveDefiningParam){
     var classModel = new className(this.inCave, new Vector(0,0), definingParam);
@@ -389,7 +403,7 @@ Man.prototype.stateHandleStarts = {
 Man.prototype.stateHandleFinishes = {
   acceptBuffer: function(dt){
     console.log("accept2");
-    this.trade = null;
+    this.showTrade = false;
     this.states.changeTradeBuffer.start();
   },
   giveBuffer: function(dt){
@@ -399,7 +413,11 @@ Man.prototype.stateHandleFinishes = {
     if(this.trade.gives.inventory.length){
       this.states.giveBuffer.start();
     }else{
-      this.states.acceptBuffer.start();
+      if(this.tradeStatic){
+        this.resetTrade(this.trade);
+      } else{
+        this.states.acceptBuffer.start();
+      }
     }
   },
   giveProcessBuffer: function(dt){
@@ -413,13 +431,10 @@ Man.prototype.stateHandleFinishes = {
     }
   },
   changeTradeBuffer: function(dt){
+    this.showTrade = true;
     console.log("change2");
     if(this.trades.length){
-      if(this.tradeStatic){
-        this.resetTrade(this.trade);
-      } else{
-        this.nextTrade();
-      }
+      this.nextTrade();
     } else{
       if(this.type === "keeper"){
         this.states.walking.start();

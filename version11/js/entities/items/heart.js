@@ -1,5 +1,5 @@
 class Heart extends Entity{
-  constructor(inCave, pos){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     this.weight = 1;
     this.level = 1;
@@ -17,6 +17,11 @@ class Heart extends Entity{
     this.shadowPosChange = new Vector((this.size.x-this.shadowSize.x)/2, (this.size.y-this.shadowSize.y/2));
     this.shadowImage = new Sprite(assetManager.getImage("shadow"), this.shadowPosChange, this.shadowSize);
     this.makeShadow();
+  }
+  getInfo(){
+    return {
+
+    };
   }
   addToCave(inCave){
     super.addToCave(inCave);

@@ -8,6 +8,7 @@ INVWIDTH = ctx.canvas.width-CSIZE;
 var FPS = 60;
 DEBUG = false;
 DEBUGBOX = false;
+DEBUGSTATS = false;
 WINDOWSIZE = 12; //20 while actual size is 30 works the best so far
 DEBUGWINDOWSIZE = 200;
 GAMEWINDOWSIZE = 25;

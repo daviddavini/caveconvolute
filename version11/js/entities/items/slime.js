@@ -1,5 +1,5 @@
 class Slime extends Entity{
-  constructor(inCave, pos){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     this.weight = 1;
     this.flyDamage = 1/2;
@@ -14,6 +14,11 @@ class Slime extends Entity{
     this.hp = this.maxHp;
     this.image = new Sprite(assetManager.getImage(["slime"]), this.drawPosChange, this.drawSize, 3, 4);
     this.makeShadow();
+  }
+  getInfo(){
+    return {
+
+    };
   }
   addToCave(inCave){
     super.addToCave(inCave);

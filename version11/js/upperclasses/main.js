@@ -2,11 +2,11 @@ console.log("didn't get stuck defining stuff");
 
 document.fonts.load("10pt ArcadeClassic").then(loadAssets);
 var assetManager = new AssetManager();
-
 function loadAssets(){
   assetManager.loadImages();
   assetManager.onLoad(main);
 }
+
 function printFPS(fps, fpsExpected){
   ctx.fillStyle = "blue";
   ctx.font = "20px Arial";
@@ -34,7 +34,7 @@ function toggleDebugMode(){
 }
 
 function main(){
-  var game = new GameScreen();
+  var screen = new TitleScreen();
 
   var timeOfLastLoop = performance.now();
   var dtExpected = 1/FPS;
@@ -47,15 +47,19 @@ function main(){
 
   setInterval(function(){
     //ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
-    game.update(dt);
-    game.draw(ctx);
+    screen.update(dt);
+    screen.draw(ctx);
+    if(screen.gotoNextScreen){
+      screen = new GameScreen();
+    }
 
     printedFPSCount += dt;
     if(printedFPSCount >= printedFPSTime){
       printedFPS = 1/dt;
       printedFPSCount = 0;
     }
-    printFPS(printedFPS, FPS);
+    if(DEBUGSTATS)
+      printFPS(printedFPS, FPS);
     dt = getDt(timeOfLastLoop);
 
     timeOfLastLoop = performance.now();
@@ -111,7 +115,7 @@ function main(){
   };
   document.onkeydown = function(event){
     //event.preventDefault();
-    //console.log(event.keyCode);
+    console.log(event.keyCode);
     if(event.keyCode === 68) // d
       InputMove.keyPress({type:"move",inputId:"moveRight",state:true});
     if(event.keyCode === 83) // s
@@ -143,6 +147,9 @@ function main(){
     }
     if(event.keyCode === 72){ // h
       toggleDebugMode();
+    }
+    if(event.keyCode === 81){ // h
+      DEBUGSTATS = !DEBUGSTATS;
     }
     if(event.keyCode === 66) // h
       DEBUGBOX = !DEBUGBOX;

@@ -1,9 +1,9 @@
 class Stone extends Entity{
-  constructor(inCave, pos, type){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     this.weight = 1;
     this.flyDamage = 1/2;
-    this.type = type;
+    this.type = defInfo.type;
     this.level = 1;
     this.value = (3);
 
@@ -22,6 +22,11 @@ class Stone extends Entity{
     }
     this.drawPosChange.set(this.size.minus(this.drawSize).times(1/2));
     this.makeShadow();
+  }
+  getInfo(){
+    return {
+      type: this.type,
+    };
   }
   sameAs(entity){
     if(super.sameAs(entity)){

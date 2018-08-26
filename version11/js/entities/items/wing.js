@@ -1,5 +1,5 @@
 class Wing extends Entity{
-  constructor(inCave, pos){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     this.weight = 1;
     this.level = 1;
@@ -14,6 +14,11 @@ class Wing extends Entity{
     this.hp = this.maxHp;
     this.image = new Sprite(assetManager.getImage(["wing"]), this.drawPosChange, this.drawSize);
     this.makeShadow();
+  }
+  getInfo(){
+    return {
+
+    };
   }
   addToCave(inCave){
     super.addToCave(inCave);

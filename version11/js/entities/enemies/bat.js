@@ -1,5 +1,5 @@
 class Bat extends Entity{
-  constructor(inCave, pos){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     this.maxHp = 2;
     this.hp = this.maxHp;

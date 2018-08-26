@@ -1,7 +1,9 @@
 class Entity {
   constructor(inCave, pos){
     this.id = Math.random();
-    this.addToCave(inCave);
+    this.inCave = inCave;
+    if(this.inCave)
+      this.addToCave(inCave);
     this.pos = pos;
     this.posChange = new Vector(0,0);
     this.vel = new Vector(0,0);

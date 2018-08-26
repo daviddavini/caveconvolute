@@ -33,18 +33,18 @@ class Cluster {
     this.spawnManagers["startlink"] = new SpawnManager([]);
     this.lootManager = new LootManager([
       {dyings:[{className:Crawler, chanceMult:3}, {className:Monster, chanceMult:1}, {className:Bat, chanceMult:5}],
-        borns:[{className:Heart, chance:1/20, definingParam:null},
-              {className:Holder, chance:1/20, definingParam:Fuel},
-              {className:Holder, chance:1/40, definingParam:Rock},
-              {className:Holder, chance:1/30, definingParam:Entity},
-              {className:Stone, chance:1/60, definingParam:"speed"},
-              {className:Stone, chance:1/60, definingParam:"strength"}]},
+        borns:[{className:Heart, chance:1/20, definingParam:{}},
+              {className:Holder, chance:1/20, definingParam:{className:Fuel}},
+              {className:Holder, chance:1/40, definingParam:{className:Rock}},
+              {className:Holder, chance:1/30, definingParam:{className:Entity}},
+              {className:Stone, chance:1/60, definingParam:{type:"speed"}},
+              {className:Stone, chance:1/60, definingParam:{type:"strength"}}]},
       {dyings:[{className:Bat}],
-        borns:[{className:Wing, chance:7/10, definingParam:null}]},
+        borns:[{className:Wing, chance:7/10, definingParam:{}}]},
       {dyings:[{className:Monster}],
-        borns:[{className:Slime, chance:7/10, definingParam:null}]},
+        borns:[{className:Slime, chance:7/10, definingParam:{}}]},
       {dyings:[{className:Crawler}],
-        borns:[{className:Eye, chance:7/10, definingParam:null}]}
+        borns:[{className:Eye, chance:7/10, definingParam:{}}]}
     ]);
     var cavesToAdd = [];
     for(var i = 0; i < levelInfo.strandNumb; i++){
@@ -67,11 +67,15 @@ class Cluster {
       this.spawnManagers[id].spawnStartEntities();
     }
   }
-  finishLevel(){
+  addPlayer(playerInfo){
+    console.log("hey", playerInfo)
+    return this.startlinkCave.spawnEntity(Player, playerInfo, this.startlinkCave.caveMap.getPlayerSpot());
+  }
+  finishLevel(playerInfo){
     for(var id in this.caves){
-      this.caves[id].finishLevel();
+      this.caves[id].finishLevel(playerInfo);
     }
-    this.game.finishLevel();
+    this.game.finishLevel(playerInfo);
   }
   update(dt){
     for(var id in this.spawnManagers){

@@ -28,6 +28,16 @@ class ItemRing {
       this.imageOutlineEmpty = assetManager.getImage(["invoutlineempty"]);
     }
   }
+  getInfo(){
+    var defInfos = [];
+    for(var item of this.items){
+      defInfos.push({className:item.constructor, defInfo:item.getInfo()});
+    }
+    return {
+      defInfos: defInfos,
+      slotNumb: this.maxNumbOfItems,
+    }
+  }
   update(dt){
     for(var item of this.items){
       item.image.tick(dt);

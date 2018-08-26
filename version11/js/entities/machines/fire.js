@@ -1,5 +1,5 @@
 class Fire extends Entity {
-  constructor(inCave, pos){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     Fire.fires[this.id] = this;
     this.maxHp = 999999;

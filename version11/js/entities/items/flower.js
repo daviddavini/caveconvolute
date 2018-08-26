@@ -1,5 +1,5 @@
 class Flower extends Entity{
-  constructor(inCave, pos, groupId){
+  constructor(inCave, pos, defInfo, groupId){
     super(inCave, pos);
     this.groupId = groupId ? groupId : Math.random();
     var flowerList = assetManager.getImagePack(["flowers"]);
@@ -17,6 +17,11 @@ class Flower extends Entity{
               flat: new Sprite(assetManager.getImage("flowerflat"), this.drawPosChange, this.drawSize)};
     this.image = this.images.healthy;
     new State("flat", this);
+  }
+  getInfo(){
+    return {
+      groupId: this.groupId,
+    };
   }
   sameAs(entity){
     if(super.sameAs(entity)){

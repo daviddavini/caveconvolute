@@ -1,5 +1,5 @@
 class Gem extends Entity{
-  constructor(inCave, pos){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     this.weight = 0.75;
     this.flyDamage = 1;
@@ -12,6 +12,11 @@ class Gem extends Entity{
     this.drawSize.set(new Vector(1,1));
     this.image = new Sprite(assetManager.getImage(["greengem"]), this.drawPosChange, this.drawSize, 8, 7);
     this.makeShadow();
+  }
+  getInfo(){
+    return {
+
+    };
   }
   addToCave(inCave){
     super.addToCave(inCave);

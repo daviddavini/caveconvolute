@@ -1,5 +1,5 @@
 class Bear extends Entity{
-  constructor(inCave, pos){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     this.maxHp = 1;
     this.hp = this.maxHp;

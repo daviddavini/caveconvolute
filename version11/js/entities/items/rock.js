@@ -1,5 +1,5 @@
 class Rock extends Entity{
-  constructor(inCave, pos){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     this.color = "yellow";
     this.weight = 1;
@@ -15,10 +15,15 @@ class Rock extends Entity{
                   new Sprite(assetManager.getImage(["rockbroken1"]), this.drawPosChange, this.drawSize),
                   new Sprite(assetManager.getImage(["rock"]), this.drawPosChange, this.drawSize)];
     this.maxHp = 3;
-    this.hp = this.maxHp;
+    this.hp = defInfo.hp ? defInfo.hp : this.maxHp;
     this.image = this.images[Math.floor(this.hp/this.maxHp*this.images.length)-1];
     this.breakChance = 0.7;
     this.makeShadow();
+  }
+  getInfo(){
+    return {
+      hp: this.hp,
+    };
   }
   addToCave(inCave){
     super.addToCave(inCave);

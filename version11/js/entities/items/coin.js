@@ -1,9 +1,9 @@
 class Coin extends Entity{
-  constructor(inCave, pos, level){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     this.weight = 1;
     this.flyDamage = 0;
-    this.level = level;
+    this.level = defInfo.level;
     this.value = 1;
 
     this.healthBump = 1;
@@ -19,6 +19,11 @@ class Coin extends Entity{
     this.size.set(new Vector(0.5, 0.5));
     this.drawSize.set(new Vector(0.6, 0.6));
     this.drawPosChange.set(this.size.minus(this.drawSize).times(1/2));
+  }
+  getInfo(){
+    return {
+      level: this.level,
+    };
   }
   sameAs(entity){
     if(super.sameAs(entity)){

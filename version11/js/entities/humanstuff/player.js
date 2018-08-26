@@ -1,20 +1,21 @@
 class Player extends Entity{
-  constructor(inCave, pos, inventory){
+  constructor(inCave, pos, playerInfo){
     super(inCave, pos);
     this.cameraPos = this.pos;
     this.hookConnectors = {};
-    this.slowSpd = 10;
+    this.defaultSpd = playerInfo.spd;
+    this.slowSpd = this.defaultSpd;
     this.fastSpd = 2*this.slowSpd;
     this.spd = this.slowSpd;
     this.dir = new Vector(0,0);
     this.doingThrow = false;
-    this.inventory = inventory ? inventory : new Inventory(this);
+    this.inventory = new Inventory(this, playerInfo);
     this.isDead = false;
     this.maxMaxHp = 15;
     this.minMaxHp = 3;
-    this.maxHp = 5;
-    this.throwSpd = 8;
-    this.hp = this.maxHp;
+    this.maxHp = playerInfo.maxHp;
+    this.throwSpd = playerInfo.throwSpd;
+    this.hp = playerInfo.hp;
     this.drawSize.set(this.size.plus(new Vector(0, 3/8)));
     this.images = {frontwalking:new Sprite(assetManager.getImage("playerwalking"),
                             new Vector(0, -3/8), this.drawSize, 4, 12),
@@ -32,6 +33,23 @@ class Player extends Entity{
     new State("walking", this).start();
     new State("slowwalking", this, 0.8);
     new State("grabbing", this);
+  }
+  getInfo(){
+    var invInfo = this.inventory.getInfo();
+    var playerInfo = {
+      spd: this.defaultSpd,
+      maxHp: this.maxHp,
+      hp: this.hp,
+      throwSpd: this.throwSpd,
+      fuelSlotNumb: invInfo.fuelRingInfo.slotNumb,
+      rockSlotNumb: invInfo.rockRingInfo.slotNumb,
+      itemSlotNumb: invInfo.itemRingInfo.slotNumb,
+      fuelInfos: invInfo.fuelRingInfo.defInfos,
+      rockInfos: invInfo.rockRingInfo.defInfos,
+      itemInfos: invInfo.itemRingInfo.defInfos
+    };
+    console.log(playerInfo);
+    return playerInfo;
   }
   pickupItems(){
     var itemClosest = null;
@@ -89,7 +107,7 @@ class Player extends Entity{
         canv.fillRect(0, 0, canv.canvas.width, canv.canvas.height);
         canv.globalAlpha = 1;
       }else{
-        this.inCave.cluster.finishLevel();
+        this.inCave.cluster.finishLevel(this.getInfo());
       }
     }else if(this.inCave.type === "startlink"){
       var blackPercent = 0.33;

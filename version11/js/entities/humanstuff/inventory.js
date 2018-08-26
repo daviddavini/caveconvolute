@@ -1,5 +1,5 @@
 class Inventory {
-  constructor(entity){
+  constructor(entity, playerInfo){
     this.entity = entity;
     this.width = INVWIDTH;
     this.height = CSIZE;
@@ -20,13 +20,47 @@ class Inventory {
                       new ItemRing(Entity, 1,1, new Vector(this.width*(0.66),this.height*(this.basePercent+0.54)), this.offAlpha),
                       new ItemRing(Entity, 1,1, new Vector(this.width*(0.66),this.height*(this.basePercent+0.60)), this.offAlpha)];
     //(CSIZE+INVWIDTH-100, 100)
-    this.rings = [
-      new ItemRing(Fuel, 3,8, new Vector(this.width/2, this.height*(this.basePercent+0.10)), this.offAlpha),
-      new ItemRing(Rock, 1,6, new Vector(this.width/2, this.height*(this.basePercent+0.28)), this.offAlpha),
-    ]
-    this.addFreeSpots(3);
+    this.fuelRing = new ItemRing(Fuel, playerInfo.fuelSlotNumb,8, new Vector(this.width/2,
+      this.height*(this.basePercent+0.10)), this.offAlpha);
+    this.rockRing = new ItemRing(Rock, playerInfo.rockSlotNumb,6, new Vector(this.width/2,
+      this.height*(this.basePercent+0.28)), this.offAlpha);
+    this.rings = [this.fuelRing, this.rockRing];
+    this.addFreeSpots(playerInfo.itemSlotNumb);
     this.selectedRingIndex = 1;
     this.rings[this.selectedRingIndex].selected = true;
+
+    for(var fuelInfo of playerInfo.fuelInfos){
+      var fuel = new fuelInfo.className(null, new Vector(0,0), fuelInfo.defInfo);
+      this.add(fuel);
+    }
+    for(var rockInfo of playerInfo.rockInfos){
+      var rock = new rockInfo.className(null, new Vector(0,0), rockInfo.defInfo);
+      this.add(rock);
+    }
+    for(var itemInfo of playerInfo.itemInfos){
+      var item = new itemInfo.className(null, new Vector(0,0), itemInfo.defInfo);
+      this.add(item);
+    }
+  }
+  getInfo(){
+    var fuelRingInfo = this.fuelRing.getInfo();
+    var rockRingInfo = this.rockRing.getInfo();
+    var itemRingInfo = {
+      defInfos:[],
+      slotNumb:0,
+    };
+    for(var ring of this.rings){
+      if(ring.itemClass === Entity){
+        var ringInfo = ring.getInfo();
+        itemRingInfo.defInfos.push(...ringInfo.defInfos);
+        itemRingInfo.slotNumb += ringInfo.slotNumb;
+      }
+    }
+    return {
+      fuelRingInfo:fuelRingInfo,
+      rockRingInfo:rockRingInfo,
+      itemRingInfo:itemRingInfo,
+    };
   }
   update(dt){
     for(var ring of this.rings){

@@ -1,25 +1,27 @@
 class Crawler extends Entity{
-  constructor(inCave, pos, groupId){
+  constructor(inCave, pos, defInfo, groupId){
     super(inCave, pos);
     this.maxHp = 1;
     this.hp = this.maxHp;
     this.spd = 10;
     if(groupId){
       this.groupId = groupId;
-      this.attack = groupId*0.3 + 0.3;
+      this.attack = this.groupId*0.3 + 0.3;
       this.sideLength =0.4+0.4*Math.random();
     } else{
       this.attack = 1;
-      this.sideLength = 1;
+      this.sideLength = 1+0.4*Math.random();
     }
     this.size.set(new Vector(this.sideLength, this.sideLength));
-    this.images = {calm:new Sprite(assetManager.getImage("swarm"), new Vector(0,0), this.size.copy(), 6, 12),
-                  mad:new Sprite(assetManager.getImage("swarm"), new Vector(0,0), this.size.copy(), 6, 12)};
+    this.drawSize.set(this.size);
+    this.drawPosChange.set(this.drawSize.minus(this.size).times(0.5));
+    this.images = {calm:new Sprite(assetManager.getImage("swarm"), this.drawPosChange, this.drawSize, 6, 12),
+                  mad:new Sprite(assetManager.getImage("swarm"), this.drawPosChange, this.drawSize, 6, 12)};
     this.defaultMoveStyle = new BuzzMove(this, 8);
     this.setMoveStyle(this.defaultMoveStyle);
 
     this.makeShadow();
-    
+
     this.numbOfChomps = 0;
     this.maxChomps = 7;
     new State("runAway", this, 1.5);

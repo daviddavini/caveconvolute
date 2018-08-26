@@ -1,5 +1,5 @@
 class Fuel extends Entity{
-  constructor(inCave, pos){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     this.weight = 1;
     this.flyDamage = 1/2;
@@ -13,6 +13,11 @@ class Fuel extends Entity{
     this.drawSize.set(new Vector(1,1));
     this.image = new Sprite(assetManager.getImage(["fuel"]), this.drawPosChange, this.drawSize);
     this.makeShadow();
+  }
+  getInfo(){
+    return {
+      
+    };
   }
   addToCave(inCave){
     super.addToCave(inCave);

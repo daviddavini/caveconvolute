@@ -1,17 +1,18 @@
 class Gate extends Entity{
-  constructor(inCave, pos){
+  constructor(inCave, pos, defInfo){
     super(inCave, pos);
     this.weight = 1;
 
-    this.size.set(new Vector(9, 5));
-    this.drawPosChange.set(new Vector(0,0));
-    this.drawSize.set(this.size);
+    var width = 5.5;
+    this.size.set(new Vector(width, width*24/32));
+    this.drawPosChange.set(new Vector(0,-width*(1-24/32)));
+    this.drawSize.set(new Vector(width, width*32/32));
 
-    this.pos.take(new Vector(this.size.x/2, this.size.y)).add(new Vector(1/2,0));
+    this.pos.take(new Vector(this.size.x/2, this.size.y)).add(new Vector(1/2,-1/2));
 
     this.images = {
-      closed: new Sprite(assetManager.getImage(["gate"]), this.drawPosChange, this.drawSize),
-      open: new Sprite(assetManager.getImage(["fuel"]), this.drawPosChange, this.drawSize)
+      closed: new Sprite(assetManager.getImage(["gate"]), this.drawPosChange, this.drawSize, 7, 0),
+      open: new Sprite(assetManager.getImage(["gate"]), this.drawPosChange, this.drawSize, 7, 2, true)
     }
     this.image = this.images.closed;
     new State("open", this);

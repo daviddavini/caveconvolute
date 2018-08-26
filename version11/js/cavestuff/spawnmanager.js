@@ -10,6 +10,7 @@ class SpawnWatcher{
     this.maxNumb = info.maxNumb !== undefined ? info.maxNumb : this.numb;
     this.startNumb = info.startNumb !== undefined ? info.startNumb : this.numb;
     this.print = info.print;
+    this.defInfo = info.defInfo;
   }
   update(dt){
     //relies on dt's that are significantly smaller than spawn rates's inverse
@@ -34,12 +35,12 @@ class SpawnWatcher{
   spawnEntity(){
     var index = randomIndexWeighted(this.amounts, function(i){return 1/(i+1)});
     var cave = this.caves[index];
-    cave.spawnEntity(this.className);
+    cave.spawnEntity(this.className, this.defInfo);
   }
   spawnEntityGroup(groupNumb){
     var index = randomIndexWeighted(this.amounts, function(i){return 1/(i+1)});
     var cave = this.caves[index];
-    cave.spawnEntityGroup(this.className, groupNumb);
+    cave.spawnEntityGroup(this.className, this.defInfo, groupNumb);
   }
   spawn(numbLimit){
     var groupNumb = randInt(this.groupNumbRange[0], this.groupNumbRange[1]);
