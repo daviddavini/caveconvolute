@@ -1,7 +1,7 @@
 var USE_DB = true;
 
 var mongojs = USE_DB ? require('mongojs') : null;
-var db = USE_DB ? mongojs(MONGODB_URI, ['account', 'progress']) : null;
+var db = USE_DB ? mongojs(process.env.MONGODB_URI, ['account', 'progress']) : null;
 
 Database = {};
 
