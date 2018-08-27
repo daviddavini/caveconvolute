@@ -115,7 +115,7 @@ function main(){
   };
   document.onkeydown = function(event){
     //event.preventDefault();
-    console.log(event.keyCode);
+    //console.log(event.keyCode);
     if(event.keyCode === 68) // d
       InputMove.keyPress({type:"move",inputId:"moveRight",state:true});
     if(event.keyCode === 83) // s

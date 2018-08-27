@@ -4,6 +4,7 @@ class TitleScreen extends Screen{
     this.socket = socket;
     this.explorerInfo = null;
     socket.on('createAccountReturn', wrapFunction(this.newExplorerReturn, this));
+    socket.on('loadAccountReturn', wrapFunction(this.oldExplorerReturn, this));
     this.buttons = [];
     this.buttons.newExplorer = this.createButton("   new   explorer",
         this.pos.x+this.size.x*0.25, this.pos.y+this.size.y*0.8, 150,
@@ -33,11 +34,23 @@ class TitleScreen extends Screen{
     if(data.success){
       this.nextScreen(new GameScreen(this.pos, this.size, this.socket, this.explorerInfo));
     }else{
-      console.log("failure");
+      console.log("failure: ", data.reason);
     }
   };
   oldExplorer(){
-
+    this.explorerInfo = {name:this.inputName.value(), code:this.inputPass.value()};
+    this.socket.emit('loadAccount', {
+      username: this.explorerInfo.name,
+      password: this.explorerInfo.code
+    });
+  }
+  oldExplorerReturn(data){
+    if(data.success){
+      console.log(data);
+      this.nextScreen(new GameScreen(this.pos, this.size, this.socket, this.explorerInfo, data.playerInfo));
+    }else{
+      console.log("failure: ", data.reason);
+    }
   }
   leaderBoard(){
 

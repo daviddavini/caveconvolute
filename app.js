@@ -17,8 +17,14 @@ io.sockets.on('connection', function(socket){
   console.log('socket connection');
 
   socket.on('createAccount', function(data){
-    Database.createAccount(data, function(success){
-      socket.emit('createAccountReturn', {success:success});
+    Database.createAccount(data, function(data){
+      socket.emit('createAccountReturn', data);
+    });
+  });
+
+  socket.on('loadAccount', function(data){
+    Database.loadAccount(data, function(data){
+      socket.emit('loadAccountReturn', data);
     });
   })
 })

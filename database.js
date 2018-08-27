@@ -5,27 +5,47 @@ var db = USE_DB ? mongojs(process.env.MONGODB_URI, ['account', 'progress']) : nu
 
 Database = {};
 
-Database.isValidPassword = function(data, cb){
+///////
+Database.loadAccount = function(data, cb){
   if(!USE_DB){
-    return cb(true);
+    return cb({success:true, playerInfo:0});
   }
-  db.account.findOne({username:'b', password:'bb'}, function(err, res){
+  db.account.findOne({username:data.username, password:data.password}, function(err, res){
     if(res){
-      console.log("user exists, correct pass");
-      cb(true);
+      cb({success:true, playerInfo:res.playerInfo, test:res.test});
     } else{
-      cb(false);
+      cb({success:false, reason:"nonexistant"});
+    }
+  });
+}
+
+Database.isExistingAccount = function(data, cb){
+  if(!USE_DB){
+    return cb({success:data.username === "david" && data.password === "davini"});
+  }
+  db.account.findOne({username:data.username}, function(err, res){
+    if(res){
+      cb({success:true});
+    } else{
+      cb({success:false, reason:"nonexistant"});
     }
   });
 }
 
 Database.createAccount = function(data, cb){
+  Database.isExistingAccount(data, function(data){
+    if(data.success)
+      return cb({success:false, reason:"duplicate"});
+  });
   if(!USE_DB){
-    return cb(data.username === "david" && data.password === "davini");
+    return cb({success:data.username === "david" && data.password === "davini"});
   }
-  db.account.insert({username:data.username, password:data.password}, function(err){
+  if(data.username.length > 0 && data.password.length > 0)
+    return cb({success:false, reason:"empty"});
+  var test = {hello:"hi", game:[1,2,3]};
+  db.account.insert({username:data.username, password:data.password, test:test}, function(err){
     //save user progress too...
-    cb(true);
+    cb({success:true});
   });
 }
 

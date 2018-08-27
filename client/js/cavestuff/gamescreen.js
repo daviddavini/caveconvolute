@@ -1,9 +1,9 @@
 class GameScreen extends Screen{
-  constructor(pos, size, socket, explorerInfo){
+  constructor(pos, size, socket, explorerInfo, playerInfo){
     super(pos, size); //not used yet
     this.level = 1;
     this.explorerInfo = explorerInfo;
-    this.playerInfo = {
+    this.playerInfo = playerInfo || {
       hp: 5,
       maxHp: 5,
       spd: 10,
