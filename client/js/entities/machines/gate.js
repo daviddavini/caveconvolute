@@ -12,7 +12,7 @@ class Gate extends Entity{
 
     this.images = {
       closed: new Sprite(assetManager.getImage(["gate"]), this.drawPosChange, this.drawSize, 7, 0),
-      open: new Sprite(assetManager.getImage(["gate"]), this.drawPosChange, this.drawSize, 7, 2, true)
+      open: new Sprite(assetManager.getImage(["gate"]), this.drawPosChange, this.drawSize, 7, 4, true)
     }
     this.image = this.images.closed;
     new State("open", this);

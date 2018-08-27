@@ -23,7 +23,7 @@ Database.saveAccount = function(data, cb){
 
 Database.loadAccount = function(data, cb){
   if(!USE_DB){
-    return cb({success:true, playerInfo:0});
+    return cb({success:true, explorerInfo:{name:"david", code:"davini"}});
   }
   db.account.findOne({username:data.username, password:data.password}, function(err, res){
     if(res){

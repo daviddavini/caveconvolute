@@ -15,9 +15,9 @@ class GameScreen extends Screen{
       fuelSlotNumb: 3,
       rockSlotNumb: 1,
       itemSlotNumb: 3,
-      fuelInfos: [{className:Fuel, defInfo:{}}],
-      rockInfos: [{className:Rock, defInfo:{hp:3}}],
-      itemInfos: [{className:Stone, defInfo:{type:"speed"}}]
+      fuelInfos: [],
+      rockInfos: [],
+      itemInfos: []
     }
     this.setForLevelSetup();
   }
