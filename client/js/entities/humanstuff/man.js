@@ -195,6 +195,7 @@ class Man extends Entity{
       }
     }
     var chosenTradeInfo = validTradeInfos[randInt(0, validTradeInfos.length)];
+    console.log(chosenTradeInfo);
     this.addTrade(chosenTradeInfo.className, chosenTradeInfo.requiredAmt, chosenTradeInfo.defInfo);
   }
   addRandTradeByValueRange(valueRange, way){
