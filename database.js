@@ -40,7 +40,7 @@ Database.createAccount = function(data, cb){
   if(!USE_DB){
     return cb({success:data.username === "david" && data.password === "davini"});
   }
-  if(data.username.length > 0 && data.password.length > 0)
+  if(!(data.username.length > 0 && data.password.length > 0))
     return cb({success:false, reason:"empty"});
   var test = {hello:"hi", game:[1,2,3]};
   db.account.insert({username:data.username, password:data.password, test:test}, function(err){
