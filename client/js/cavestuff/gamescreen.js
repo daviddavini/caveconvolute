@@ -31,7 +31,7 @@ class GameScreen extends Screen{
     this.socket.emit('saveAccount', {
       username: explorerInfo.name,
       password: explorerInfo.code,
-      playerInfo, this.playerInfo
+      playerInfo: this.playerInfo
     });
   }
   finishLevel(playerInfo){
