@@ -111,7 +111,7 @@ class GameScreen extends Screen{
         monsterNumb: 4+level*1,
         crawlerNumb: level%4 === 2 ? 1+Math.floor(level/3) : Math.floor(level/6),
         batNumb: level%4 === 0 ? 1+Math.floor(level/5) : Math.floor(level/10),
-        keeperValueRange: [0, 3*level],
+        keeperValueRange: [0, 1.5*level],
         traderValueRange: [0, level]
       }
     }
