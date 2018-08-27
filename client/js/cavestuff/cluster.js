@@ -10,22 +10,22 @@ class Cluster {
     this.spawnManagers["home"] = new SpawnManager([
     ]);
     this.spawnManagers["strand"] = new SpawnManager([
-      new SpawnWatcher({className:Flower, numb:40, groupNumbRange:[3, 7], spawnRate:0, print:"flower"}),
-      new SpawnWatcher({className:Fuel, numb:4, spawnRate:1/30, print:"fuel"}),
-      new SpawnWatcher({className:Fuel, numb:1, spawnRate:1/30, print:"fuel"}),
-      new SpawnWatcher({className:Monster, numb:levelInfo.monsterNumb, spawnRate:1/30, groupNumbRange:[1, 3], print:"monster"}),
-      new SpawnWatcher({className:Crawler, numb:levelInfo.crawlerNumb, spawnRate:1/30, print:"crawler"}),
-      new SpawnWatcher({className:Bat, numb:levelInfo.batNumb, spawnRate:1/30, print:"bat"})
+      new SpawnWatcher({className:Flower, defInfo:{}, numb:40, groupNumbRange:[3, 7], spawnRate:0, print:"flower"}),
+      new SpawnWatcher({className:Fuel, defInfo:{}, numb:4, spawnRate:1/30, print:"fuel"}),
+      new SpawnWatcher({className:Rock, defInfo:{}, numb:1, spawnRate:1/30, print:"fuel"}),
+      new SpawnWatcher({className:Monster, defInfo:{}, numb:levelInfo.monsterNumb, spawnRate:1/30, groupNumbRange:[1, 3], print:"monster"}),
+      new SpawnWatcher({className:Crawler, defInfo:{}, numb:levelInfo.crawlerNumb, spawnRate:1/30, print:"crawler"}),
+      new SpawnWatcher({className:Bat, defInfo:{}, numb:levelInfo.batNumb, spawnRate:1/30, print:"bat"})
     ]);
     this.spawnManagers["quarry"] = new SpawnManager([
-      new SpawnWatcher({className:Rock, numb:4, spawnRate:1/30, print:"rock"})
+      new SpawnWatcher({className:Rock, defInfo:{}, numb:4, spawnRate:1/30, print:"rock"})
     ]);
     this.spawnManagers["oasis"] = new SpawnManager([
-      new SpawnWatcher({className:Flower, numb:300, groupNumbRange:[3, 10], spawnRate:0, print:"flower"})
+      new SpawnWatcher({className:Flower, defInfo:{}, numb:300, groupNumbRange:[3, 10], spawnRate:0, print:"flower"})
     ]);
     this.spawnManagers["dungeon"] = new SpawnManager([
-      new SpawnWatcher({className:Monster, numb:20, spawnRate:1/60, print:"monster"}),
-      new SpawnWatcher({className:Crawler, numb:5, spawnRate:1/60, print:"crawler"})
+      new SpawnWatcher({className:Monster, defInfo:{}, numb:20, spawnRate:1/60, print:"monster"}),
+      new SpawnWatcher({className:Crawler, defInfo:{}, numb:5, spawnRate:1/60, print:"crawler"})
     ]);
     this.spawnManagers["exit"] = new SpawnManager([]);
     this.spawnManagers["traderoom"] = new SpawnManager([]);

@@ -119,7 +119,7 @@ class LootManager {
       if(qualified){
         for(var born of lootSpawn.borns){
           if(Math.random() < chanceMult*born.chance){
-            cave.spawnEntity(born.className, dyingEntity.box.randomInsidePos(), born.definingParam);
+            cave.spawnEntity(born.className, born.definingParam, dyingEntity.box.randomInsidePos());
           }
         }
       }

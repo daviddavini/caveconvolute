@@ -63,7 +63,15 @@ class Man extends Entity{
       {className:'Heart', defInfo:{}}
     ];
     this.takeTradeInfos = [
-      {className:'Rock', requiredAmt:1, defInfo:{}}
+      {className:'Coin', requiredAmt:1, defInfo:{level:1}},
+      {className:'Coin', requiredAmt:1, defInfo:{level:2}},
+      {className:'Coin', requiredAmt:1, defInfo:{level:3}},
+      {className:'Fuel', requiredAmt:randInt(1,7), defInfo:{}},
+      {className:'Rock', requiredAmt:randInt(1,7), defInfo:{}},
+      {className:'Slime', requiredAmt:randInt(1,7), defInfo:{}},
+      {className:'Eye', requiredAmt:randInt(1,7), defInfo:{}},
+      {className:'Wing', requiredAmt:randInt(1,7), defInfo:{}},
+      {className:'Gem', requiredAmt:randInt(1,7), defInfo:{}},
     ];
     this.trades = [];
 
@@ -99,9 +107,11 @@ class Man extends Entity{
       this.image = new Sprite(assetManager.getImage("gatekeeper"), this.drawPosChange, this.drawSize, 3, 6);
       this.gate = defInfo.gate;
       this.walkDir = new Vector(1,0);
+      this.allowances = defInfo.allowances;
 
       if(defInfo.valueRange){
-        this.addRandTakeByValueRange(defInfo.valueRange);
+        for(var i = 0; i < randInt(1,4); i++)
+          this.addRandTakeByValueRange(defInfo.valueRange, this.allowances);
       }else {
         for(var takeInfo of defInfo.takeInfos){
           this.addTrade(takeInfo.className, takeInfo.requiredAmt, takeInfo.defInfo);

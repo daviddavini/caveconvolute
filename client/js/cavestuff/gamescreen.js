@@ -50,6 +50,7 @@ class GameScreen extends Screen{
   levelSetup(level){
     Fire.reset();
     var levelInfo = this.getLevelInfo(level);
+    console.log(levelInfo);
     this.caves = {};
     this.cluster = new Cluster(this, levelInfo);
     this.player = this.cluster.addPlayer(this.playerInfo);
@@ -101,17 +102,17 @@ class GameScreen extends Screen{
         keeperValueRange: [0,3],
         traderValueRange: [0,5],
       }
-    }else if(level === 2){
+    }else{
       return {
-        strandNumb: 0,
-        quarryNumb: 0,
-        oasisNumb: 0,
+        strandNumb: Math.floor(level/5),
+        quarryNumb: level%2 === 0 ? 1 : 0,
+        oasisNumb: level%2 === 1 ? 1 : 0,
         traderoomNumb: 1,
-        monsterNumb: 8,
-        crawlerNumb: 3,
-        batNumb: 1,
-        keeperValueRange: [1,3],
-        traderValueRange: [1,5],
+        monsterNumb: 4+level*1,
+        crawlerNumb: level%4 === 2 ? 1+Math.floor(level/3) : Math.floor(level/6),
+        batNumb: level%4 === 0 ? 1+Math.floor(level/5) : Math.floor(level/10),
+        keeperValueRange: [0, 3*level],
+        traderValueRange: [0, level]
       }
     }
   }
