@@ -42,28 +42,28 @@ class Man extends Entity{
     //   {className:Wing, defInfo:null},
     // ]
     this.receiveTradeInfos = [
-      {className:Eye, defInfo:{}},
-      {className:Flower, defInfo:{}},
-      {className:Wing, defInfo:{}},
-      {className:Slime, defInfo:{}},
-      {className:Gem, defInfo:{}}
+      {className:'Eye', defInfo:{}},
+      {className:'Flower', defInfo:{}},
+      {className:'Wing', defInfo:{}},
+      {className:'Slime', defInfo:{}},
+      {className:'Gem', defInfo:{}}
     ];
     // for(var a of this.receiveTradeInfos){
     //   console.log(a.className, this.getTradeValue(a));
     // }
     this.giveTradeInfos = [
-      {className:Gem, defInfo:{}},
-      {className:Fuel, defInfo:{}},
-      {className:Rock, defInfo:{}},
-      {className:Stone, defInfo:{type:"speed"}},
-      {className:Stone, defInfo:{type:"strength"}},
-      {className:Holder, defInfo:{className:Entity}},
-      {className:Holder, defInfo:{className:Rock}},
-      {className:Holder, defInfo:{className:Fuel}},
-      {className:Heart, defInfo:{}}
+      {className:'Gem', defInfo:{}},
+      {className:'Fuel', defInfo:{}},
+      {className:'Rock', defInfo:{}},
+      {className:'Stone', defInfo:{type:"speed"}},
+      {className:'Stone', defInfo:{type:"strength"}},
+      {className:'Holder', defInfo:{className:Entity}},
+      {className:'Holder', defInfo:{className:Rock}},
+      {className:'Holder', defInfo:{className:Fuel}},
+      {className:'Heart', defInfo:{}}
     ];
     this.takeTradeInfos = [
-      {className:Rock, requiredAmt:1, defInfo:{}}
+      {className:'Rock', requiredAmt:1, defInfo:{}}
     ];
     this.trades = [];
 
@@ -127,13 +127,13 @@ class Man extends Entity{
       }
 
       if(this.exlevel === 1 && this.exdir === "up"){
-        this.addTrade(Coin, 3, {level:1}, Coin, 1, {level:2});
+        this.addTrade('Coin', 3, {level:1}, 'Coin', 1, {level:2});
       } else if(this.exlevel === 1 && this.exdir === "down"){
-        this.addTrade(Coin, 1, {level:2}, Coin, 3, {level:1});
+        this.addTrade('Coin', 1, {level:2}, 'Coin', 3, {level:1});
       } else if(this.exlevel === 2 && this.exdir === "up"){
-        this.addTrade(Coin, 3, {level:2}, Coin, 1, {level:3});
+        this.addTrade('Coin', 3, {level:2}, 'Coin', 1, {level:3});
       } else if(this.exlevel === 2 && this.exdir === "down"){
-        this.addTrade(Coin, 1, {level:3}, Coin, 3, {level:2});
+        this.addTrade('Coin', 1, {level:3}, 'Coin', 3, {level:2});
       }
       this.tradeStatic = true;
     }
@@ -263,30 +263,30 @@ class Man extends Entity{
     return this.trade;
   }
   addReceiveTrade(className, definingParam){
-    var classModel = new className(this.inCave, new Vector(0,0), definingParam);
+    var classModel = new (eval(className))(this.inCave, new Vector(0,0), definingParam);
     var amts = this.amtsFrom(classModel.value);
     var giveAmt = amts.amt1;
     var requiredAmt = amts.amt2;
     //classModel.value = Math.pow(3, classModel.level-1);
-    this.addTrade(className, requiredAmt, definingParam, Coin, giveAmt, {level:classModel.level});
+    this.addTrade(className, requiredAmt, definingParam, 'Coin', giveAmt, {level:classModel.level});
   }
   addGiveTrade(className, definingParam){
-    var classModel = new className(this.inCave, new Vector(0,0), definingParam);
+    var classModel = new (eval(className))(this.inCave, new Vector(0,0), definingParam);
     var amts = this.amtsFrom(classModel.value);
     var giveAmt = amts.amt2;
     var requiredAmt = amts.amt1;
     //classModel.value = Math.pow(3, classModel.level-1);
-    this.addTrade(Coin, requiredAmt, {level:classModel.level}, className, giveAmt, definingParam);
+    this.addTrade('Coin', requiredAmt, {level:classModel.level}, className, giveAmt, definingParam);
   }
   addTrade(className, requiredAmt, definingParam, giveClassName, giveAmt, giveDefiningParam){
-    var classModel = new className(this.inCave, new Vector(0,0), definingParam);
+    var classModel = new (eval(className))(this.inCave, new Vector(0,0), definingParam);
     classModel.makeModel();
     if(giveClassName){
-      var giveClassModel = new giveClassName(this.inCave, new Vector(0,0), giveDefiningParam);
+      var giveClassModel = new (eval(giveClassName))(this.inCave, new Vector(0,0), giveDefiningParam);
       giveClassModel.makeModel();
       var giveInventory = [];
       for(var i = 0; i < giveAmt; i++){
-        giveInventory.push(new giveClassName(this.inCave, new Vector(0,0), giveDefiningParam));
+        giveInventory.push(new (eval(giveClassName))(this.inCave, new Vector(0,0), giveDefiningParam));
         super.collect(giveInventory[i]);
       }
     }

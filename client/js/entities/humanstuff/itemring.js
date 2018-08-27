@@ -31,7 +31,7 @@ class ItemRing {
   getInfo(){
     var defInfos = [];
     for(var item of this.items){
-      defInfos.push({className:item.constructor, defInfo:item.getInfo()});
+      defInfos.push({className:item.constructor.name, defInfo:item.getInfo()});
     }
     return {
       defInfos: defInfos,
