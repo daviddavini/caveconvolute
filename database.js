@@ -27,7 +27,7 @@ Database.loadAccount = function(data, cb){
   }
   db.account.findOne({username:data.username, password:data.password}, function(err, res){
     if(res){
-      cb({success:true, playerInfo:res.playerInfo});
+      cb({success:true, playerInfo:res.playerInfo, explorerInfo:res.explorerInfo});
     } else{
       cb({success:false, reason:"nonexistant"});
     }
