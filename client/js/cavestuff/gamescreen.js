@@ -19,31 +19,31 @@ class GameScreen extends Screen{
     }
     this.setForLevelSetup();
   }
-  savePlayerInfoReturn(data){
-    if(data.success){
-      this.caveOpen = true;
-      console.log(data);
-    } else{
-      console.log("hey, things arent working");
-    }
-  }
   savePlayerInfo(){
     this.socket.emit('saveAccount', {
       username: explorerInfo.name,
       password: explorerInfo.code,
-      playerInfo: this.playerInfo
+      playerInfo: this.playerInfo,
+      level: this.level,
     });
+  }
+  savePlayerInfoReturn(data){
+    if(data.success){
+      this.setForLevelSetup();
+      console.log(data);
+    } else{
+      console.log(data, "hey, things arent working");
+    }
   }
   finishLevel(playerInfo){
     this.playerInfo = playerInfo;
-    this.savePlayerInfo();
+    this.caveOpen = false;
     this.levelChange();
-    this.setForLevelSetup();
+    this.savePlayerInfo();
   }
   setForLevelSetup(){
     this.drawLoadScreen();
     this.doLevelSetupOnUpdate = true;
-    this.caveOpen = false;
   }
   levelSetup(level){
     Fire.reset();
@@ -51,8 +51,7 @@ class GameScreen extends Screen{
     this.caves = {};
     this.cluster = new Cluster(this, levelInfo);
     this.player = this.cluster.addPlayer(this.playerInfo);
-    //this.caveOpen = true;
-    //wait until save return to open cave
+    this.caveOpen = true;
   }
   levelChange(){
     this.level++;
