@@ -30,15 +30,15 @@ class Inventory {
     this.rings[this.selectedRingIndex].selected = true;
 
     for(var fuelInfo of playerInfo.fuelInfos){
-      var fuel = new eval(fuelInfo.className)(null, new Vector(0,0), fuelInfo.defInfo);
+      var fuel = new (eval(fuelInfo.className))(null, new Vector(0,0), fuelInfo.defInfo);
       this.add(fuel);
     }
     for(var rockInfo of playerInfo.rockInfos){
-      var rock = new eval(rockInfo.className)(null, new Vector(0,0), rockInfo.defInfo);
+      var rock = new (eval(rockInfo.className))(null, new Vector(0,0), rockInfo.defInfo);
       this.add(rock);
     }
     for(var itemInfo of playerInfo.itemInfos){
-      var item = new eval(itemInfo.className)(null, new Vector(0,0), itemInfo.defInfo);
+      var item = new (eval(itemInfo.className))(null, new Vector(0,0), itemInfo.defInfo);
       this.add(item);
     }
   }
