@@ -6,13 +6,28 @@ var db = USE_DB ? mongojs(process.env.MONGODB_URI, ['account', 'progress']) : nu
 Database = {};
 
 ///////
+Database.saveAccount = function(data, cb){
+  if(!USE_DB){
+    return cb({success:true});
+  }
+  db.account.findOne({username:data.username, password:data.password}, function(err, res){
+    if(res){
+      db.account.update({_id:res._id}, {$set:{playerInfo:data.playerInfo}}, {}, function(err){
+        cb(success:true);
+      });
+    } else{
+      cb({success:false, reason:"nonexistant"});
+    }
+  });
+}
+
 Database.loadAccount = function(data, cb){
   if(!USE_DB){
     return cb({success:true, playerInfo:0});
   }
   db.account.findOne({username:data.username, password:data.password}, function(err, res){
     if(res){
-      cb({success:true, playerInfo:res.playerInfo, test:res.test});
+      cb({success:true, playerInfo:res.playerInfo});
     } else{
       cb({success:false, reason:"nonexistant"});
     }
@@ -33,27 +48,25 @@ Database.isExistingAccount = function(data, cb){
 }
 
 Database.createAccount = function(data, cb){
+  var isExisting = false;
   Database.isExistingAccount(data, function(data){
     if(data.success){
-      return cb({success:false, reason:"duplicate"});
+      isExisting = true;
+      cb({success:false, reason:"duplicate"});
     }
   });
-  if(!USE_DB){
-    return cb({success:data.username === "david" && data.password === "davini"});
-  }
-  if(!(data.username.length > 0 && data.password.length > 0)){
-    return cb({success:false, reason:"empty"});
-  }
-  class Howdy{
-    constructor(eye){
-      this.tooth = eye;
+  if(!isExisting){
+    if(!USE_DB){
+      return cb({success:data.username === "david" && data.password === "davini"});
     }
+    if(!(data.username.length > 0 && data.password.length > 0)){
+      return cb({success:false, reason:"empty"});
+    }
+    db.account.insert({username:data.username, password:data.password}, function(err){
+      //save user progress too...
+      cb({success:true});
+    });
   }
-  var test = {hello:"hi", game:[1,2,3], watcha:Howdy};
-  db.account.insert({username:data.username, password:data.password, test:test}, function(err){
-    //save user progress too...
-    cb({success:true});
-  });
 }
 
 Database.saveUserProgress = function(data, cb){

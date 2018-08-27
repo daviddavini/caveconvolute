@@ -27,4 +27,10 @@ io.sockets.on('connection', function(socket){
       socket.emit('loadAccountReturn', data);
     });
   })
+
+  socket.on('saveAccount', function(data){
+    Database.saveAccount(data, function(data){
+      socket.emit('saveAccountReturn', data);
+    });
+  })
 })

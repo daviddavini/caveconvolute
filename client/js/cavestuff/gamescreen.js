@@ -1,5 +1,9 @@
 class GameScreen extends Screen{
   constructor(pos, size, socket, explorerInfo, playerInfo){
+    this.socket = socket;
+    this.socket.on('saveAccountReturn', wrapFunction(this.savePlayerInfoReturn, this));
+
+    })
     super(pos, size); //not used yet
     this.level = 1;
     this.explorerInfo = explorerInfo;
@@ -17,8 +21,24 @@ class GameScreen extends Screen{
     }
     this.setForLevelSetup();
   }
+  savePlayerInfoReturn(data){
+    if(data.success){
+      this.caveOpen = true;
+      console.log(data);
+    } else{
+      console.log("hey, things arent working");
+    }
+  }
+  savePlayerInfo(){
+    this.socket.emit('saveAccount', {
+      username: explorerInfo.name,
+      password: explorerInfo.code,
+      playerInfo, this.playerInfo
+    });
+  }
   finishLevel(playerInfo){
     this.playerInfo = playerInfo;
+    this.savePlayerInfo();
     this.levelChange();
     this.setForLevelSetup();
   }
@@ -33,7 +53,8 @@ class GameScreen extends Screen{
     this.caves = {};
     this.cluster = new Cluster(this, levelInfo);
     this.player = this.cluster.addPlayer(this.playerInfo);
-    this.caveOpen = true;
+    //this.caveOpen = true;
+    //wait until save return to open cave
   }
   levelChange(){
     this.level++;
@@ -44,9 +65,11 @@ class GameScreen extends Screen{
       this.levelSetup(this.level);
       this.doLevelSetupOnUpdate = false;
     }
-    this.cluster.update(dt);
-    for(var id in this.caves){
-      this.caves[id].update(dt);
+    if(this.caveOpen){
+      this.cluster.update(dt);
+      for(var id in this.caves){
+        this.caves[id].update(dt);
+      }
     }
   }
   draw(canv){
