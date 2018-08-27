@@ -3,8 +3,9 @@ class GameScreen extends Screen{
     super(pos, size);
     this.socket = socket;
     this.socket.on('saveAccountReturn', wrapFunction(this.savePlayerInfoReturn, this));
-    this.level = 1;
     this.explorerInfo = explorerInfo;
+    if(!this.explorerInfo.level)
+      this.explorerInfo.level = 1;
     console.log("playerinfo", playerInfo);
     this.playerInfo = playerInfo || {
       hp: 5,
@@ -25,7 +26,7 @@ class GameScreen extends Screen{
       username: this.explorerInfo.name,
       password: this.explorerInfo.code,
       playerInfo: this.playerInfo,
-      level: this.level
+      explorerInfo: this.explorerInfo
     });
   }
   savePlayerInfoReturn(data){
@@ -55,12 +56,12 @@ class GameScreen extends Screen{
     this.caveOpen = true;
   }
   levelChange(){
-    this.level++;
+    this.explorerInfo.level++;
   }
   update(dt){
     super.update(dt);
     if(this.doLevelSetupOnUpdate){
-      this.levelSetup(this.level);
+      this.levelSetup(this.explorerInfo.level);
       this.doLevelSetupOnUpdate = false;
     }
     if(this.caveOpen){

@@ -47,7 +47,7 @@ class TitleScreen extends Screen{
   oldExplorerReturn(data){
     if(data.success){
       console.log(data);
-      this.nextScreen(new GameScreen(this.pos, this.size, this.socket, this.explorerInfo, data.playerInfo));
+      this.nextScreen(new GameScreen(this.pos, this.size, this.socket, data.explorerInfo, data.playerInfo));
     }else{
       console.log("failure: ", data.reason);
     }
