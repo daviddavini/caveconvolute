@@ -5,6 +5,7 @@ class GameScreen extends Screen{
     this.socket.on('saveAccountReturn', wrapFunction(this.savePlayerInfoReturn, this));
     this.level = 1;
     this.explorerInfo = explorerInfo;
+    console.log("playerinfo", playerInfo);
     this.playerInfo = playerInfo || {
       hp: 5,
       maxHp: 5,
