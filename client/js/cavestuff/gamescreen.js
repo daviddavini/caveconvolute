@@ -2,8 +2,6 @@ class GameScreen extends Screen{
   constructor(pos, size, socket, explorerInfo, playerInfo){
     this.socket = socket;
     this.socket.on('saveAccountReturn', wrapFunction(this.savePlayerInfoReturn, this));
-
-    })
     super(pos, size); //not used yet
     this.level = 1;
     this.explorerInfo = explorerInfo;
