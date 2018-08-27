@@ -99,8 +99,8 @@ class GameScreen extends Screen{
         monsterNumb: 5,
         crawlerNumb: 0,
         batNumb: 0,
-        keeperValueRange: [0,3],
-        traderValueRange: [0,5],
+        keeperValueRange: [0,1],
+        traderValueRange: [0,2],
       }
     }else{
       return {
