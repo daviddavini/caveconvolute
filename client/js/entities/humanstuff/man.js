@@ -174,12 +174,12 @@ class Man extends Entity{
     return true;
   }
   getTradeValue(tradeInfo){
-    var value = tradeInfo.className.value;
+    var value = eval(tradeInfo.className).value;
     //some level is input-dependent, some is constant (Gem)
     if(tradeInfo.defInfo && tradeInfo.defInfo.level){
       value *= tradeInfo.defInfo.level;
-    }else if(tradeInfo.className.level){
-      value *= tradeInfo.className.level;
+    }else if(eval(tradeInfo.className).level){
+      value *= eval(tradeInfo.className).level;
     }
     if(tradeInfo.requiredAmt)
       value *= tradeInfo.requiredAmt;
