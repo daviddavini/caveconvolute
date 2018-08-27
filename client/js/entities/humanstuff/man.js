@@ -184,12 +184,13 @@ class Man extends Entity{
     return true;
   }
   getTradeValue(tradeInfo){
-    var value = eval(tradeInfo.className).value;
+    console.log(tradeInfo)
+    var value = (eval(tradeInfo.className)).value;
     //some level is input-dependent, some is constant (Gem)
     if(tradeInfo.defInfo && tradeInfo.defInfo.level){
-      value *= tradeInfo.defInfo.level;
-    }else if(eval(tradeInfo.className).level){
-      value *= eval(tradeInfo.className).level;
+      value *= Math.pow(3, tradeInfo.defInfo.level-1);
+    }else if((eval(tradeInfo.className)).level){
+      value *= Math.pow(3, (eval(tradeInfo.className)).level-1);
     }
     if(tradeInfo.requiredAmt)
       value *= tradeInfo.requiredAmt;
@@ -199,6 +200,7 @@ class Man extends Entity{
     var validTradeInfos = [];
     var tradeInfos = this.takeTradeInfos;
     for(var tradeInfo of tradeInfos){
+      console.log(value, valueRange)
       var value = this.getTradeValue(tradeInfo);
       if(value >= valueRange[0] && value <= valueRange[1]){
         validTradeInfos.push(tradeInfo);
