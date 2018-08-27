@@ -195,6 +195,7 @@ class Man extends Entity{
       }
     }
     var chosenTradeInfo = validTradeInfos[randInt(0, validTradeInfos.length)];
+    console.log(chosenTradeInfo);
     this.addTrade(chosenTradeInfo.className, chosenTradeInfo.requiredAmt, chosenTradeInfo.defInfo);
   }
   addRandTradeByValueRange(valueRange, way){
@@ -211,7 +212,6 @@ class Man extends Entity{
       }
     }
     var chosenTradeInfo = validTradeInfos[randInt(0, validTradeInfos.length)];
-    console.log(chosenTradeInfo);
     if(way === "receive"){
       this.addReceiveTrade(chosenTradeInfo.className, chosenTradeInfo.defInfo);
     } else if(way === "give"){
