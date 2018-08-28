@@ -118,6 +118,15 @@ class Player extends Entity{
       canv.fillRect(0, 0, canv.canvas.width, canv.canvas.height);
       canv.globalAlpha = 1;
     }
+    if(this.states.dead.on){
+      canv.fillStyle = "white";
+      canv.font = "60px ArcadeClassic";
+      var m1 = "you died.";
+      var m2 = "refresh   the   page   to   try   again";
+      canv.fillText(m1, INVWIDTH+CSIZE/2 - canv.measureText(m1).width/2, CSIZE/2);
+      canv.font = "30px ArcadeClassic";
+      canv.fillText(m2, INVWIDTH+CSIZE/2 - canv.measureText(m2).width/2, CSIZE/2 +50);
+    }
     //ctx.fillStyle = "purple";
     //ctx.fillText("cave: "+this.inCave.number,430+INVWIDTH,100);
     //ctx.fillStyle = "white";
