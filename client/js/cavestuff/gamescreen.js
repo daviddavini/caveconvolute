@@ -109,8 +109,8 @@ class GameScreen extends Screen{
         oasisNumb: level%2 === 1 ? 1 : 0,
         traderoomNumb: 1,
         monsterNumb: 4+level*1,
-        crawlerNumb: level%4 === 2 ? 1+Math.floor(level/3) : Math.floor(level/6),
-        batNumb: level%4 === 0 ? 1+Math.floor(level/5) : Math.floor(level/10),
+        crawlerNumb: level%4 === 2 ? 1+Math.floor(level/2) : Math.floor(level/4),
+        batNumb: level%4 === 0 ? 1+Math.floor(level/3) : Math.floor(level/5),
         keeperValueRange: [0, 1.5*level],
         traderValueRange: [0, level]
       }

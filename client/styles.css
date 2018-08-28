@@ -14,6 +14,16 @@ canvas {
     image-rendering: pixelated;
     image-rendering: crisp-edges;
 }
+a:link {
+  color:lightblue;
+}
+div {
+  left: 100;
+  float:left;
+  top: 600;
+  width: 200px;
+  font-size: 18px;
+}
 canvdiv {
   margin: 0px auto;
 }
