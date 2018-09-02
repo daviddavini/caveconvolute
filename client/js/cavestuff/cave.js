@@ -19,6 +19,8 @@ class Cave {
       this.caveMap = new RoomMap(this, groundImages, 1, 9, Math.PI*(5/4)+(Math.PI*(1/2))*Math.random());
       this.spawnEntity(Fire, {}, this.caveMap.getCenter());
       this.spawnEntity(Fuel, {});
+      this.spawnEntity(Heart, {});
+      this.spawnEntity(Eye, {});
     } else if (type === "strand"){
       this.caveMap = new StrandMap(this, 8, 2);
       for(var pos = this.useLandmarkArea().pos; pos; pos = this.useLandmarkArea().pos){

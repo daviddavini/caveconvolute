@@ -99,7 +99,7 @@ class GameScreen extends Screen{
         monsterNumb: 5,
         crawlerNumb: 0,
         batNumb: 0,
-        keeperValueRange: [0,1],
+        keeperValueRange: [0,0.6],
         traderValueRange: [0,2],
       }
     }else{
@@ -111,7 +111,7 @@ class GameScreen extends Screen{
         monsterNumb: 4+level*1,
         crawlerNumb: level%4 === 2 ? 1+Math.floor(level/2) : Math.floor(level/4),
         batNumb: level%4 === 0 ? 1+Math.floor(level/3) : Math.floor(level/5),
-        keeperValueRange: [0, 1.5*level],
+        keeperValueRange: [0, 0.6*level],
         traderValueRange: [0, level]
       }
     }

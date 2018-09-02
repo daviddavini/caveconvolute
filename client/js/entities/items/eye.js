@@ -5,18 +5,18 @@ class Eye extends Entity{
     this.level = 1;
     this.value = (1/2);
 
-    this.size.set(new Vector(0.45, 0.45));
-    this.drawPosChange.set(new Vector(-0.075, -0.075));
-    this.drawSize.set(new Vector(0.6, 0.6));
+    this.size.set(new Vector(0.7, 0.7));
+    this.drawSize.set(new Vector(0.8, 0.8));
+    this.drawPosChange.set(this.size.minus(this.drawSize).times(0.5));
     this.healthBump = 1;
     this.maxHp = 1;
     this.hp = this.maxHp;
-    this.image = new Sprite(assetManager.getImage(["wing"]), this.drawPosChange, this.drawSize);
+    this.image = new Sprite(assetManager.getImage(["larvae"]), this.drawPosChange, this.drawSize, 7, 5);
     this.makeShadow();
   }
   getInfo(){
     return {
-      
+
     };
   }
   addToCave(inCave){

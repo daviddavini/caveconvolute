@@ -5,13 +5,13 @@ class Heart extends Entity{
     this.level = 1;
     this.value = 2;
 
-    this.size.set(new Vector(0.6, 0.6));
+    this.size.set(new Vector(0.7, 0.7));
     this.drawPosChange.set(new Vector(-0.1, -0.1));
-    this.drawSize.set(new Vector(0.8, 0.8));
+    this.drawSize.set(new Vector(0.9, 0.9));
     this.healthBump = 1;
     this.maxHp = 1;
     this.hp = this.maxHp;
-    this.image = new Sprite(assetManager.getImage(["heart"]), this.drawPosChange, this.drawSize);
+    this.image = new Sprite(assetManager.getImage(["heart"]), this.drawPosChange, this.drawSize, 6, 5);
 
     this.shadowSize = new Vector(this.size.x, this.size.x*7/16);
     this.shadowPosChange = new Vector((this.size.x-this.shadowSize.x)/2, (this.size.y-this.shadowSize.y/2));

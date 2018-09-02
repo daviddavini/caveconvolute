@@ -9,8 +9,8 @@ class Inventory {
     this.bibempty = assetManager.getImage("bibempty");
     this.bibred = assetManager.getImage("bibred");
     this.offAlpha = 0.15;
-    this.basePercent = 0.01;
-    this.healthBarBottomPercent = 0.94;
+    this.basePercent = 0.07;
+    this.healthBarBottomPercent = 0.95;
     this.freeSpots = [new ItemRing(Entity, 1,1, new Vector(this.width*(0.34),this.height*(this.basePercent+0.42)), this.offAlpha),
                       new ItemRing(Entity, 1,1, new Vector(this.width*(0.34),this.height*(this.basePercent+0.48)), this.offAlpha),
                       new ItemRing(Entity, 1,1, new Vector(this.width*(0.34),this.height*(this.basePercent+0.54)), this.offAlpha),
@@ -137,24 +137,36 @@ class Inventory {
     // var healthPercent = this.entity.hp/this.entity.maxHp;
     // canv.fillRect(buffer, this.height*(1-barSize*healthPercent)-buffer,
     //   this.width-2*buffer, this.height*barSize*healthPercent);
-    this.drawHealthBar(canv);
+    //this.drawHealthBar(canv);
+    var shift = 0.31;
+    this.drawBar(canv, shift, 18, 5, 15,
+      this.entity.maxHp/this.entity.maxMaxHp, this.entity.hp/this.entity.maxHp);
+    this.drawBar(canv, 1-shift, 18, 5, 15,
+      1/2, Fire.totalHealth/Fire.totalMaxHealth);
   }
-  drawHealthBar(canv){
+  drawLevel(canv){
+    
+  }
+  drawBar(canv, xPercent, x, y, numb, maxPercent, percent){
     var scale = 2.8;
-    var x = 32;
-    var y = 6;
+    var x = x;
+    var y = y;
+    var maxMaxHp = numb;
+    var maxHp = numb * maxPercent;
+    var hp = maxHp * percent;
+    var width = this.width*xPercent-0.5*x*scale;
     canv.globalAlpha = this.offAlpha;
-    for(var i = 0; i<this.entity.maxMaxHp; i++){
-      canv.drawImage(this.bibempty, this.width/2-0.5*x*scale,
+    for(var i = 0; i<maxMaxHp; i++){
+      canv.drawImage(this.bibempty, width,
         this.height*this.healthBarBottomPercent-(y-1)*scale*i, x*scale, y*scale);
     }
     canv.globalAlpha = 1;
-    for(var i = 0; i<this.entity.maxHp; i++){
-      canv.drawImage(this.bibempty, this.width/2-0.5*x*scale,
+    for(var i = 0; i<maxHp; i++){
+      canv.drawImage(this.bibempty, width,
         this.height*this.healthBarBottomPercent-(y-1)*scale*i, x*scale, y*scale);
     }
-    for(var i = 0; i<this.entity.hp; i++){
-      canv.drawImage(this.bibred, this.width/2-0.5*x*scale,
+    for(var i = 0; i<hp; i++){
+      canv.drawImage(this.bibred, width,
         this.height*this.healthBarBottomPercent-(y-1)*scale*i, x*scale, y*scale);
     }
   }

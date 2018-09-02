@@ -66,12 +66,12 @@ class Man extends Entity{
       {className:'Coin', requiredAmt:1, defInfo:{level:1}},
       {className:'Coin', requiredAmt:1, defInfo:{level:2}},
       {className:'Coin', requiredAmt:1, defInfo:{level:3}},
-      {className:'Fuel', requiredAmt:randInt(1,7), defInfo:{}},
-      {className:'Rock', requiredAmt:randInt(1,7), defInfo:{}},
-      {className:'Slime', requiredAmt:randInt(1,7), defInfo:{}},
-      {className:'Eye', requiredAmt:randInt(1,7), defInfo:{}},
-      {className:'Wing', requiredAmt:randInt(1,7), defInfo:{}},
-      {className:'Gem', requiredAmt:randInt(1,7), defInfo:{}},
+      {className:'Fuel', requiredAmt:randInt(1,4), defInfo:{}},
+      {className:'Rock', requiredAmt:randInt(1,4), defInfo:{}},
+      {className:'Slime', requiredAmt:randInt(1,4), defInfo:{}},
+      {className:'Eye', requiredAmt:randInt(1,4), defInfo:{}},
+      {className:'Wing', requiredAmt:randInt(1,4), defInfo:{}},
+      {className:'Gem', requiredAmt:randInt(1,4), defInfo:{}},
     ];
     this.trades = [];
 
@@ -89,10 +89,12 @@ class Man extends Entity{
       } else{
         console.log("yikes")
         for(var tradeInfo of defInfo.tradeInfos){
-          if(tradeInfo.way === "give")
-            this.addGiveTrade(tradeInfo.className, tradeInfo.defInfo);
-          else if(tradeInfo.way === "receive")
-            this.addReceiveTrade(tradeInfo.className, tradeInfo.defInfo);
+          for(var i = 0; i < 3; i++){
+            if(tradeInfo.way === "give")
+              this.addGiveTrade(tradeInfo.className, tradeInfo.defInfo);
+            else if(tradeInfo.way === "receive")
+              this.addReceiveTrade(tradeInfo.className, tradeInfo.defInfo);
+          }
         }
       }
 
@@ -110,7 +112,7 @@ class Man extends Entity{
       this.allowances = defInfo.allowances;
 
       if(defInfo.valueRange){
-        for(var i = 0; i < randInt(1,4); i++)
+        for(var i = 0; i < randInt(1,1); i++)
           this.addRandTakeByValueRange(defInfo.valueRange, this.allowances);
       }else {
         for(var takeInfo of defInfo.takeInfos){
