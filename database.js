@@ -12,7 +12,7 @@ Database.saveAccount = function(data, cb){
   }
   db.account.findOne({username:data.username, password:data.password}, function(err, res){
     if(res){
-      db.account.update({_id:res._id}, {$set:{playerInfo:data.playerInfo, explorerInfo:data.explorerInfo}}, {}, function(err){
+      db.account.update({_id:res._id}, {$set:{playerInfo:res.playerInfo, explorerInfo:res.explorerInfo}}, {}, function(err){
         cb({success:true});
       });
     } else{
