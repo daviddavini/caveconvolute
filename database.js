@@ -54,19 +54,19 @@ Database.createAccount = function(data, cb){
       isExisting = true;
       cb({success:false, reason:"duplicate"});
     }
+    if(!isExisting){
+      if(!USE_DB){
+        return cb({success:data.username === "david" && data.password === "davini"});
+      }
+      if(!(data.username.length > 0 && data.password.length > 0)){
+        return cb({success:false, reason:"empty"});
+      }
+      db.account.insert({username:data.username, password:data.password}, function(err){
+        //save user progress too...
+        cb({success:true});
+      });
+    }
   });
-  if(!isExisting){
-    if(!USE_DB){
-      return cb({success:data.username === "david" && data.password === "davini"});
-    }
-    if(!(data.username.length > 0 && data.password.length > 0)){
-      return cb({success:false, reason:"empty"});
-    }
-    db.account.insert({username:data.username, password:data.password}, function(err){
-      //save user progress too...
-      cb({success:true});
-    });
-  }
 }
 
 Database.saveUserProgress = function(data, cb){
