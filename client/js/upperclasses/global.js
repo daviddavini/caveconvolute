@@ -44,7 +44,9 @@ var drawWindow = function(x,y) {
 }
 
 var wrapFunction = function(fn, context) {
+  console.log(fn);
   return function() {
+    console.log(fn);
     fn.apply(context, arguments);
   };
 }

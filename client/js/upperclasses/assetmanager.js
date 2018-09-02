@@ -101,8 +101,10 @@ class AssetManager{
     new ImageAsset(this, "ghosthurtleft", "client/img/ghosthurtleft.png", "ghost");
     new ImageAsset(this, "ghosthurtright", "client/img/ghosthurtright.png", "ghost");
     new ImageAsset(this, "rock", "client/img/bluerock.png");
-    new ImageAsset(this, "playerwalking", "client/img/playerwalking.png");
-    new ImageAsset(this, "player", "client/img/player.png");
+    new ImageAsset(this, "playerwalkingup", "client/img/playerwalkingup.png");
+    new ImageAsset(this, "playerwalkingdown", "client/img/playerwalkingdown.png");
+    new ImageAsset(this, "playerwalkingleft", "client/img/playerwalkingleft.png");
+    new ImageAsset(this, "playerwalkingright", "client/img/playerwalkingright.png");
     new ImageAsset(this, "bat", "client/img/bat.png");
     new ImageAsset(this, "fountain", "client/img/fountain.png");
     new ImageAsset(this, "barrel", "client/img/barrel.png");

@@ -19,6 +19,7 @@ class SaveScreen extends Screen{
     this.fireSprite = new Sprite(assetManager.getImage("player"), new Vector(0,0), new Vector(1,11/8));
   }
   saveAndQuit(){
+    console.log(this.explorerInfo, this.playerInfo);
     this.socket.emit('saveAccount', {
       username: this.explorerInfo.name,
       password: this.explorerInfo.code,

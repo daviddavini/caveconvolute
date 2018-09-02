@@ -17,10 +17,16 @@ class Player extends Entity{
     this.throwSpd = playerInfo.throwSpd;
     this.hp = playerInfo.hp;
     this.drawSize.set(this.size.plus(new Vector(0, 3/8)));
-    this.images = {frontwalking:new Sprite(assetManager.getImage("playerwalking"),
-                            new Vector(0, -3/8), this.drawSize, 4, 12),
-                  front:new Sprite(assetManager.getImage("player"),
-                            new Vector(0, -3/8), this.drawSize)};
+    this.images = {walkingdown:new Sprite(assetManager.getImage("playerwalkingdown"),
+                    new Vector(0, -3/8), this.drawSize, 4, 8),
+                  walkingup:new Sprite(assetManager.getImage("playerwalkingup"),
+                    new Vector(0, -3/8), this.drawSize, 4, 8),
+                  walkingright:new Sprite(assetManager.getImage("playerwalkingright"),
+                    new Vector(0, -3/8), this.drawSize, 4, 8),
+                  walkingleft:new Sprite(assetManager.getImage("playerwalkingleft"),
+                    new Vector(0, -3/8), this.drawSize, 4, 8),
+                  front:new Sprite(assetManager.getImage("playerwalkingdown"),
+                    new Vector(0, -3/8), this.drawSize, 4, 0)};
     this.makeShadow();
     this.image = this.images.frontwalk;
     this.itemPickupDist = 2;
@@ -187,7 +193,21 @@ class Player extends Entity{
     this.hookConnectors[connector.id] = connector;
   }
   update(dt){
-    this.image = this.vel.length() > 0 && !(this.moveStyle instanceof FlyMove) ? this.images.frontwalking : this.images.front;
+    if(this.moveStyle instanceof FlyMove){
+      this.image = this.images.front;
+    } else {
+      if(this.vel.y < 0){
+        this.image = this.images.walkingup;
+      } else if(this.vel.y > 0){
+        this.image = this.images.walkingdown;
+      } else if(this.vel.x < 0){
+        this.image = this.images.walkingleft;
+      } else if(this.vel.x > 0){
+        this.image = this.images.walkingright;
+      } else{
+        this.image = this.images.front;
+      }
+    }
     if(DEBUG)
       this.hp = this.maxHp;
     this.inventory.update(dt);
