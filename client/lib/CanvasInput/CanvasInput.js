@@ -1206,7 +1206,8 @@
       }
 
       // remove the hidden input box
-      document.body.removeChild(self._hiddenInput);
+      if (self._hiddenInput.parentNode == document.body)
+        document.body.removeChild(self._hiddenInput);
 
       // remove off-DOM canvas
       self._renderCanvas = null;
@@ -1294,10 +1295,13 @@
       var self = this,
         ctx = self._renderCtx;
 
-      ctx.font = self._fontStyle + ' ' + self._fontWeight + ' ' + self._fontSize + 'px ' + self._fontFamily;
-      ctx.textAlign = 'left';
+      if (ctx) {
+          
+        ctx.font = self._fontStyle + ' ' + self._fontWeight + ' ' + self._fontSize + 'px ' + self._fontFamily;
+        ctx.textAlign = 'left';
 
-      return ctx.measureText(text).width;
+        return ctx.measureText(text).width;
+      }
     },
 
     /**

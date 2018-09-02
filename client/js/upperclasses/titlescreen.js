@@ -6,7 +6,7 @@ class TitleScreen extends Screen{
     this.explorerInfo = null;
     socket.on('createAccountReturn', wrapFunction(this.newExplorerReturn, this));
     socket.on('loadAccountReturn', wrapFunction(this.oldExplorerReturn, this));
-    this.buttons = [];
+    this.buttons = {};
     this.buttons.newExplorer = this.createButton("   new   explorer",
         this.pos.x+this.size.x*0.25, this.pos.y+this.size.y*0.8, 150,
         wrapFunction(this.newExplorer, this));
@@ -16,7 +16,7 @@ class TitleScreen extends Screen{
     this.buttons.leaderBoard = this.createButton("   leader   board",
         this.pos.x+this.size.x*0.75, this.pos.y+this.size.y*0.8, 150,
         wrapFunction(this.nextScreen, this));
-    console.log(this.buttons[0]);
+    console.log(this.buttons);
     this.inputName = this.createInput("name",
       this.pos.x+this.size.x*0.7, this.pos.y+this.size.y*0.47, 220);
     this.inputPass = this.createInput("password",
@@ -70,56 +70,18 @@ class TitleScreen extends Screen{
   leaderBoard(){
 
   }
-  createBox(text, x, y, width, info){
-    return new CanvasInput({
-      canvas: canvas,
-      x:x-width/2,
-      y:y,
-      fontSize: 18,
-      fontFamily: 'ArcadeClassic',
-      fontColor: '#fff',
-      fontSize: 22,
-      //fontWeight: 'bold',
-      width: width,
-      padding: 7,
-      borderWidth: 3,
-      borderColor: "#425C7D",
-      backgroundColor:info.backgroundColor,
-      borderRadius: 0,
-      boxShadow: '1px 1px 0px #2C3D60',
-      //innerShadow: '0px 0px 5px rgba(0 , 0, 0, 0.5)',
-      placeHolder: text,
-
-      onsubmit: info.onsubmit !== undefined ? info.onsubmit : function(){},
-      readonly: info.readonly !== undefined ? info.readonly : false,
-      onfocus: info.onfocus !== undefined ? info.onfocus : function(){},
-    });
-  }
-  createInput(text, x, y, width, onsubmit){
-    var info = {
-      onsubmit:onsubmit,
-      backgroundColor:"#0F1521",
-    }
-    return this.createBox(text, x, y, width, info);
-  }
-  createButton(text, x, y, width, onfocus){
-    var info = {
-      readonly:true,
-      onfocus:onfocus,
-      backgroundColor:"#3A506E",
-    }
-    return this.createBox(text, x, y, width, info);
-  }
   endScreen(){
     this.inputName.destroy();
     this.inputPass.destroy();
     for(var id in this.buttons){
       this.buttons[id].destroy();
+      delete this.buttons[id];
+      console.log("@@@@@@@@@", this.buttons);
     }
     super.endScreen();
   }
   update(dt){
-    console.log(this.inputName.value());
+    console.log("value:" + this.inputName.value());
     this.fireSprite.tick(dt);
   }
   drawTitle(canv){

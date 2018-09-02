@@ -111,10 +111,8 @@ class Man extends Entity{
       this.walkDir = new Vector(1,0);
       this.allowances = defInfo.allowances;
 
-      console.log(defInfo);
       if(defInfo.valueRange){
         for(var i = 0; i < randInt(1,1); i++){
-          console.log(defInfo);
           this.addRandTakeByValueRange(defInfo.valueRange, this.allowances);
         }
       }else {
@@ -189,7 +187,6 @@ class Man extends Entity{
     return true;
   }
   getTradeValue(tradeInfo){
-    console.log(tradeInfo)
     var value = (eval(tradeInfo.className)).value;
     //some level is input-dependent, some is constant (Gem)
     if(tradeInfo.defInfo && tradeInfo.defInfo.level){
@@ -205,7 +202,6 @@ class Man extends Entity{
     var validTradeInfos = [];
     var tradeInfos = this.takeTradeInfos;
     for(var tradeInfo of tradeInfos){
-      console.log(value, valueRange)
       var value = this.getTradeValue(tradeInfo);
       if(value >= valueRange[0] && value <= valueRange[1]){
         validTradeInfos.push(tradeInfo);
@@ -228,7 +224,6 @@ class Man extends Entity{
       }
     }
     var chosenTradeInfo = validTradeInfos[randInt(0, validTradeInfos.length)];
-    console.log(chosenTradeInfo, validTradeInfos, this.giveTradeInfos);
     if(way === "receive"){
       this.addReceiveTrade(chosenTradeInfo.className, chosenTradeInfo.defInfo);
     } else if(way === "give"){

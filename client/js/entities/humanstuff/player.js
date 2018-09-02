@@ -191,6 +191,10 @@ class Player extends Entity{
     if(DEBUG)
       this.hp = this.maxHp;
     this.inventory.update(dt);
+    if(DEBUGEND){
+      this.inCave.cluster.finishLevel(this.getInfo());
+      DEBUGEND = !DEBUGEND;
+    }
     super.update(dt);
   }
   unhookFrom(connector){

@@ -50,6 +50,7 @@ function main(){
     screen.update(dt);
     if(screen.followScreen){
       screen = screen.followScreen;
+      console.log(screen);
     }
     screen.draw(ctx);
 
@@ -157,6 +158,8 @@ function main(){
     }
     if(event.keyCode === 66) // h
       DEBUGBOX = !DEBUGBOX;
+    if(event.keyCode === 75) // h
+      DEBUGEND = !DEBUGEND;
   }
   document.onkeyup = function(event){
     event.preventDefault();

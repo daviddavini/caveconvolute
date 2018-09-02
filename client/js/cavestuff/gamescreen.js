@@ -19,30 +19,29 @@ class GameScreen extends Screen{
       rockInfos: [],
       itemInfos: []
     }
-    this.savePlayerInfo();
     this.setForLevelSetup();
   }
-  savePlayerInfo(){
-    this.socket.emit('saveAccount', {
-      username: this.explorerInfo.name,
-      password: this.explorerInfo.code,
-      playerInfo: this.playerInfo,
-      explorerInfo: this.explorerInfo
-    });
-  }
-  savePlayerInfoReturn(data){
-    if(data.success){
-      this.setForLevelSetup();
-      console.log(data, "yes yes");
-    } else{
-      console.log(data, "hey, things arent working");
-    }
-  }
+  // savePlayerInfo(){
+  //   this.socket.emit('saveAccount', {
+  //     username: this.explorerInfo.name,
+  //     password: this.explorerInfo.code,
+  //     playerInfo: this.playerInfo,
+  //     explorerInfo: this.explorerInfo
+  //   });
+  // }
+  // savePlayerInfoReturn(data){
+  //   if(data.success){
+  //     this.setForLevelSetup();
+  //     console.log(data, "yes yes");
+  //   } else{
+  //     console.log(data, "hey, things arent working");
+  //   }
+  // }
   finishLevel(playerInfo){
     this.playerInfo = playerInfo;
     this.caveOpen = false;
     this.levelChange();
-    this.savePlayerInfo();
+    this.nextScreen(new SaveScreen(this.pos, this.size, this.socket, this.explorerInfo, this.playerInfo));
   }
   setForLevelSetup(){
     this.drawLoadScreen();
@@ -79,6 +78,9 @@ class GameScreen extends Screen{
     if(this.caveOpen)
       this.player.displayScreen(canv);
     super.draw(canv);
+  }
+  drawSaveAskScreen(){
+
   }
   drawLoadScreen(){
     ctx.fillStyle = "#0F1521";
