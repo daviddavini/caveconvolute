@@ -28,15 +28,18 @@ Database.loadAccount = function(data, cb){
   if(!(data.username.length > 0 && data.password.length > 0)){
     return cb({success:false, reason:"empty"});
   }
+  var finishLoad = function(){
+    db.account.findOne({username:data.username, password:data.password}, function(err, res){
+      if(res){
+        cb({success:true, playerInfo:res.playerInfo, explorerInfo:res.explorerInfo});
+      } else{
+        cb({success:false, reason:"notmatching"});
+      }
+    });
+  }
   Database.isExistingAccount(data, function(data){
     if(data.success){
-      db.account.findOne({username:data.username, password:data.password}, function(err, res){
-        if(res){
-          cb({success:true, playerInfo:res.playerInfo, explorerInfo:res.explorerInfo});
-        } else{
-          cb({success:false, reason:"notmatching"});
-        }
-      });
+      finishLoad();
     } else{
       cb({success:false, reason:"nonexistant"});
     }
@@ -49,7 +52,7 @@ Database.isExistingAccount = function(data, cb){
   }
   db.account.findOne({username:data.username}, function(err, res){
     if(res){
-      cb({success:true, username:res.username, password:res.password});
+      cb({success:true});
     } else{
       cb({success:false, reason:"nonexistant"});
     }
@@ -63,14 +66,17 @@ Database.createAccount = function(data, cb){
   if(!(data.username.length > 0 && data.password.length > 0)){
     return cb({success:false, reason:"empty"});
   }
+  var finishCreate = function(){
+    db.account.insert({username:data.username, password:data.password}, function(err){
+      //save user progress too...
+      cb({success:true});
+    });
+  }
   Database.isExistingAccount(data, function(data){
     if(data.success){
       cb({success:false, reason:"duplicate"});
     } else{
-      db.account.insert({username:data.username, password:data.password}, function(err){
-        //save user progress too...
-        cb({success:true});
-      });
+      finishCreate();
     }
   });
 }
