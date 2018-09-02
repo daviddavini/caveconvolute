@@ -57,7 +57,7 @@ class Cluster {
     for(var i = 0; i < levelInfo.traderoomNumb; i++){
       cavesToAdd.push(new Cave(this.game, "traderoom", this));
     }
-    for(var i = 0; i < 3; i++){
+    for(var i = 0; i < levelInfo.oasisNumb; i++){
       cavesToAdd.push(new Cave(this.game, "oasis", this));
     }
     this.exitCave = new Cave(this.game, "exit", this);
