@@ -1,4 +1,4 @@
-var USE_DB = false;
+var USE_DB = true;
 
 var mongojs = USE_DB ? require('mongojs') : null;
 var db = USE_DB ? mongojs(process.env.MONGODB_URI, ['account', 'progress']) : null;
