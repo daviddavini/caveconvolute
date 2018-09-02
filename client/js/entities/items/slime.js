@@ -4,7 +4,6 @@ class Slime extends Entity{
     this.weight = 1;
     this.flyDamage = 1/2;
     this.level = 1;
-    this.value = (1/3);
 
     this.size.set(new Vector(0.6, 0.6));
     this.drawPosChange.set(new Vector(-0.1, -0.1));

@@ -1,6 +1,8 @@
 class Flower extends Entity{
   constructor(inCave, pos, defInfo, groupId){
     super(inCave, pos);
+    this.maxHp = 1;
+    this.hp = this.maxHp;
     this.groupId = groupId ? groupId : Math.random();
     var flowerList = assetManager.getImagePack(["flowers"]);
     this.flowerColorNumber = Math.floor(flowerList.length*this.groupId);

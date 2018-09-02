@@ -142,6 +142,8 @@ class AssetManager{
     new ImageAsset(this, "slime", "client/img/ectoplasm.png");
     new ImageAsset(this, "shadow", "client/img/shadow.png");
     new ImageAsset(this, "larvae", "client/img/larvae.png");
+    new ImageAsset(this, "firewood", "client/img/firewood.png");
+    new ImageAsset(this, "oasis", "client/img/oasis.png");
     this.imagePacks["moonground"] = [];
     new ImageAsset(this, "moonground1", "client/img/moon1.png", "moonground");
   }

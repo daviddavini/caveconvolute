@@ -1,7 +1,8 @@
 class Cluster {
-  constructor(game, levelInfo){
+  constructor(game, levelInfo, explorerInfo){
     this.game = game;
     this.levelInfo = levelInfo;
+    this.explorerInfo = explorerInfo;
 
     this.caves = {};
     this.totalFreePlugs = 0;
@@ -56,7 +57,7 @@ class Cluster {
     for(var i = 0; i < levelInfo.traderoomNumb; i++){
       cavesToAdd.push(new Cave(this.game, "traderoom", this));
     }
-    for(var i = 0; i < levelInfo.oasisNumb; i++){
+    for(var i = 0; i < 3; i++){
       cavesToAdd.push(new Cave(this.game, "oasis", this));
     }
     this.exitCave = new Cave(this.game, "exit", this);

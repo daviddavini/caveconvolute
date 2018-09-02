@@ -111,9 +111,12 @@ class Man extends Entity{
       this.walkDir = new Vector(1,0);
       this.allowances = defInfo.allowances;
 
+      console.log(defInfo);
       if(defInfo.valueRange){
-        for(var i = 0; i < randInt(1,1); i++)
+        for(var i = 0; i < randInt(1,1); i++){
+          console.log(defInfo);
           this.addRandTakeByValueRange(defInfo.valueRange, this.allowances);
+        }
       }else {
         for(var takeInfo of defInfo.takeInfos){
           this.addTrade(takeInfo.className, takeInfo.requiredAmt, takeInfo.defInfo);

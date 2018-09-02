@@ -10,7 +10,9 @@ class Inventory {
     this.bibred = assetManager.getImage("bibred");
     this.offAlpha = 0.15;
     this.basePercent = 0.07;
-    this.levelPercent = 0.05;
+    this.baseTextPercent = 0.01;
+    this.namePercent = 0.03;
+    this.levelPercent = 0.06;
     this.healthBarBottomPercent = 0.95;
     this.freeSpots = [new ItemRing(Entity, 1,1, new Vector(this.width*(0.34),this.height*(this.basePercent+0.42)), this.offAlpha),
                       new ItemRing(Entity, 1,1, new Vector(this.width*(0.34),this.height*(this.basePercent+0.48)), this.offAlpha),
@@ -149,9 +151,13 @@ class Inventory {
   drawText(canv){
     canv.fillStyle = "#87BBFF";
     canv.font = "26px ArcadeClassic";
-    var text = "level:   " + this.entity.inCave.cluster.levelInfo.level;
+    var text = this.entity.inCave.cluster.explorerInfo.name;
     canv.fillText(text, this.width/2-canv.measureText(text).width/2,
-      this.height*this.levelPercent);
+      this.height*(this.baseTextPercent+this.namePercent));
+    canv.font = "20px ArcadeClassic";
+    var text = "level:   " + this.entity.inCave.cluster.explorerInfo.level;
+    canv.fillText(text, this.width/2-canv.measureText(text).width/2,
+      this.height*(this.baseTextPercent+this.levelPercent));
   }
   drawBar(canv, xPercent, x, y, numb, maxPercent, percent){
     var scale = 2.8;

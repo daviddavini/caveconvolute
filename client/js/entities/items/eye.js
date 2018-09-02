@@ -31,4 +31,4 @@ Eye.prototype.collisionHandles = {
 };
 Eye.prototype.stateHandleStarts = {};
 Eye.prototype.stateHandleFinishes = {};
-Eye.value = 1/2;
+Eye.value = 1/1.5;

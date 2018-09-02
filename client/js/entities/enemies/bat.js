@@ -3,7 +3,7 @@ class Bat extends Entity{
     super(inCave, pos);
     this.maxHp = 2;
     this.hp = this.maxHp;
-    this.spd = 13;
+    this.spd = 10;
     this.drawScale =1.4*18/16;
     this.size.set(new Vector(1, 1));
     this.drawSize.set(new Vector(this.drawScale*25/16, this.drawScale*18/16));

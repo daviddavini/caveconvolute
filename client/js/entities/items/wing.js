@@ -32,4 +32,4 @@ Wing.prototype.collisionHandles = {
 };
 Wing.prototype.stateHandleStarts = {};
 Wing.prototype.stateHandleFinishes = {};
-Wing.value = 1;
+Wing.value = 2;
