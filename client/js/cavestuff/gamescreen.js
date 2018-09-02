@@ -19,6 +19,7 @@ class GameScreen extends Screen{
       rockInfos: [],
       itemInfos: []
     }
+    this.savePlayerInfo();
     this.setForLevelSetup();
   }
   savePlayerInfo(){
@@ -32,7 +33,7 @@ class GameScreen extends Screen{
   savePlayerInfoReturn(data){
     if(data.success){
       this.setForLevelSetup();
-      console.log(data);
+      console.log(data, "yes yes");
     } else{
       console.log(data, "hey, things arent working");
     }
