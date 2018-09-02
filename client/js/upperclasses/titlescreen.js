@@ -26,6 +26,7 @@ class TitleScreen extends Screen{
   }
   newExplorer(){
     this.explorerInfo = {name:this.inputName.value().toLowerCase(), code:this.inputPass.value().toLowerCase()};
+    console.log(this.explorerInfo.name, this.explorerInfo.code);
     this.socket.emit('createAccount', {
       username: this.explorerInfo.name,
       password: this.explorerInfo.code
@@ -33,8 +34,10 @@ class TitleScreen extends Screen{
   }
   newExplorerReturn(data){
     if(data.success){
+      console.log(this.explorerInfo);
       this.nextScreen(new GameScreen(this.pos, this.size, this.socket, this.explorerInfo));
     }else{
+      console.log(this.explorerInfo.name, this.explorerInfo.code);
       console.log("failure: ", data.reason);
       if(data.reason === "duplicate")
         this.errorText = "account   already   exists";
@@ -44,6 +47,7 @@ class TitleScreen extends Screen{
   };
   oldExplorer(){
     this.explorerInfo = {name:this.inputName.value().toLowerCase(), code:this.inputPass.value().toLowerCase()};
+    console.log(this.explorerInfo.name, this.explorerInfo.code);
     this.socket.emit('loadAccount', {
       username: this.explorerInfo.name,
       password: this.explorerInfo.code
@@ -56,7 +60,7 @@ class TitleScreen extends Screen{
     }else{
       console.log("failure: ", data.reason);
       if(data.reason === "nonexistant")
-        this.errorText = "account   already   exists";
+        this.errorText = "account   doesn't    exist";
       else if(data.reason === "empty")
         this.errorText = "enter   in   username   and   password";
       else if(data.reason === "notmatching")
