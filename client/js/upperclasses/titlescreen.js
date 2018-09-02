@@ -2,7 +2,7 @@ class TitleScreen extends Screen{
   constructor(pos, size, socket){
     super(pos, size);
     this.socket = socket;
-    this.errorText = null;
+    this.errorText = "";
     this.explorerInfo = null;
     socket.on('createAccountReturn', wrapFunction(this.newExplorerReturn, this));
     socket.on('loadAccountReturn', wrapFunction(this.oldExplorerReturn, this));
@@ -37,9 +37,9 @@ class TitleScreen extends Screen{
     }else{
       console.log("failure: ", data.reason);
       if(data.reason === "duplicate")
-        this.errorText = "account already exists";
+        this.errorText = "account   already   exists";
       else if(data.reason === "empty")
-        this.errorText = "enter in username and password";
+        this.errorText = "enter   in   username   and   password";
     }
   };
   oldExplorer(){
@@ -56,11 +56,11 @@ class TitleScreen extends Screen{
     }else{
       console.log("failure: ", data.reason);
       if(data.reason === "nonexistant")
-        this.errorText = "account already exists";
+        this.errorText = "account   already   exists";
       else if(data.reason === "empty")
-        this.errorText = "enter in username and password";
+        this.errorText = "enter   in   username   and   password";
       else if(data.reason === "notmatching")
-        this.errorText = "incorrect password";
+        this.errorText = "incorrect   password";
     }
   }
   leaderBoard(){
@@ -135,11 +135,11 @@ class TitleScreen extends Screen{
     this.inputName.render();
     this.inputPass.render();
     this.fireSprite.drawStraight(canv, this.pos.x+this.size.x*0.3, this.pos.y+this.size.y*0.56, 200);
-    canv.fillStyle = "#b20000";
-    canv.font = "20px ArcadeClassic";
+    canv.fillStyle = "#ff0000";
+    canv.font = "27px ArcadeClassic";
     canv.fillText(this.errorText,
       canv.canvas.width/2-canv.measureText(this.errorText).width/2,
-      canv.canvas.height/2);
+      canv.canvas.height*0.91);
   }
   draw(canv){
     this.doDraw(canv);
