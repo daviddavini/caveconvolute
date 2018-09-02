@@ -1,4 +1,4 @@
-var USE_DB = false;
+var USE_DB = true;
 
 var mongojs = USE_DB ? require('mongojs') : null;
 var db = USE_DB ? mongojs(process.env.MONGODB_URI, ['account', 'progress']) : null;
@@ -44,8 +44,8 @@ Database.loadAccount = function(data, cb){
 }
 
 Database.isExistingAccount = function(data, cb){
-  if(!USE_DB){
-    return cb({success:data.username === "david" && data.password === "davini"});
+  if(!(data.username.length > 0 && data.password.length > 0)){
+    return cb({success:false, reason:"empty"});
   }
   db.account.findOne({username:data.username}, function(err, res){
     if(res){
