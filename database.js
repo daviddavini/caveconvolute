@@ -49,7 +49,7 @@ Database.isExistingAccount = function(data, cb){
   }
   db.account.findOne({username:data.username}, function(err, res){
     if(res){
-      cb({success:true});
+      cb({success:true, username:res.username, password:res.password});
     } else{
       cb({success:false, reason:"nonexistant"});
     }
