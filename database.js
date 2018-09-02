@@ -25,9 +25,18 @@ Database.loadAccount = function(data, cb){
   if(!USE_DB){
     return cb({success:true, explorerInfo:{name:"david", code:"davini"}});
   }
-  db.account.findOne({username:data.username, password:data.password}, function(err, res){
-    if(res){
-      cb({success:true, playerInfo:res.playerInfo, explorerInfo:res.explorerInfo});
+  if(!(data.username.length > 0 && data.password.length > 0)){
+    return cb({success:false, reason:"empty"});
+  }
+  Database.isExistingAccount(data, function(data){
+    if(data.success){
+      db.account.findOne({username:data.username, password:data.password}, function(err, res){
+        if(res){
+          cb({success:true, playerInfo:res.playerInfo, explorerInfo:res.explorerInfo});
+        } else{
+          cb({success:false, reason:"notmatching"});
+        }
+      });
     } else{
       cb({success:false, reason:"nonexistant"});
     }
@@ -48,19 +57,16 @@ Database.isExistingAccount = function(data, cb){
 }
 
 Database.createAccount = function(data, cb){
-  var isExisting = false;
+  if(!USE_DB){
+    return cb({success:data.username === "david" && data.password === "davini"});
+  }
+  if(!(data.username.length > 0 && data.password.length > 0)){
+    return cb({success:false, reason:"empty"});
+  }
   Database.isExistingAccount(data, function(data){
     if(data.success){
-      isExisting = true;
       cb({success:false, reason:"duplicate"});
-    }
-    if(!isExisting){
-      if(!USE_DB){
-        return cb({success:data.username === "david" && data.password === "davini"});
-      }
-      if(!(data.username.length > 0 && data.password.length > 0)){
-        return cb({success:false, reason:"empty"});
-      }
+    } else{
       db.account.insert({username:data.username, password:data.password}, function(err){
         //save user progress too...
         cb({success:true});
