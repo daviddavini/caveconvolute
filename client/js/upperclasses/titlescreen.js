@@ -24,7 +24,7 @@ class TitleScreen extends Screen{
     this.fireSprite = new Sprite(assetManager.getImage("firebig"), new Vector(0,0), new Vector(1,1), 3, 6);
   }
   newExplorer(){
-    this.explorerInfo = {name:this.inputName.value().toLowerCase();, code:this.inputPass.value().toLowerCase();};
+    this.explorerInfo = {name:this.inputName.value().toLowerCase(), code:this.inputPass.value().toLowerCase()};
     this.socket.emit('createAccount', {
       username: this.explorerInfo.name,
       password: this.explorerInfo.code
