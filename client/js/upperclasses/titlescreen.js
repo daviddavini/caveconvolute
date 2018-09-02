@@ -135,9 +135,9 @@ class TitleScreen extends Screen{
     this.inputName.render();
     this.inputPass.render();
     this.fireSprite.drawStraight(canv, this.pos.x+this.size.x*0.3, this.pos.y+this.size.y*0.56, 200);
-    canv.fillStyle = "#87BBFF";
+    canv.fillStyle = "#b20000";
     canv.font = "20px ArcadeClassic";
-    canv.fillText(loadingText,
+    canv.fillText(this.errorText,
       canv.canvas.width/2-canv.measureText(this.errorText).width/2,
       canv.canvas.height/2);
   }
