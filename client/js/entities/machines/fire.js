@@ -84,9 +84,6 @@ Fire.drawLight = function(canv){
     canv.fillRect(0, 0, canv.canvas.width, canv.canvas.height);
     canv.globalAlpha = 1;
   }
-  ctx.fillStyle = "red";
-  ctx.font="12px Arial";
-  ctx.fillText(""+ Fire.totalHealth.toFixed(3)+"||  "+Fire.totalMaxHealth,330+INVWIDTH,40);
 }
 Fire.getLightPercent = function(){
   return (Fire.totalHealth/Fire.totalMaxHealth);

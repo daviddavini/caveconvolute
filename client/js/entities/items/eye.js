@@ -5,8 +5,8 @@ class Eye extends Entity{
     this.level = 1;
     this.value = (1/2);
 
-    this.size.set(new Vector(0.7, 0.7));
-    this.drawSize.set(new Vector(0.8, 0.8));
+    this.size.set(new Vector(0.6, 0.6));
+    this.drawSize.set(new Vector(0.6, 0.6));
     this.drawPosChange.set(this.size.minus(this.drawSize).times(0.5));
     this.healthBump = 1;
     this.maxHp = 1;

@@ -131,18 +131,22 @@ function main(){
     var s = 50;
     if(event.keyCode === 39){ // d
       X += s;
+      InputMove.keyPress({type:"inventoryToggle", change:-1});
       //InputMove.keyPress({type:"throw",inputId:"throwRight",state:true});
     }
     if(event.keyCode === 40){ // s
       Y += s;
+      InputMove.keyPress({type:"inventoryToggle", change:-1});
       //InputMove.keyPress({type:"throw",inputId:"throwDown",state:true});
     }
     if(event.keyCode === 37){ // a
       X -= s;
+      InputMove.keyPress({type:"inventoryToggle", change:1});
       //InputMove.keyPress({type:"throw",inputId:"throwLeft",state:true});
     }
     if(event.keyCode === 38){ // w
       Y -= s;
+      InputMove.keyPress({type:"inventoryToggle", change:1});
       //InputMove.keyPress({type:"throw",inputId:"throwUp",state:true});
     }
     if(event.keyCode === 72){ // h

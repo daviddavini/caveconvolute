@@ -92,6 +92,7 @@ class GameScreen extends Screen{
   getLevelInfo(level){
     if(level === 1){
       return {
+        level: level,
         strandNumb: 0,
         quarryNumb: 0,
         traderoomNumb: 1,
@@ -104,6 +105,7 @@ class GameScreen extends Screen{
       }
     }else{
       return {
+        level: level,
         strandNumb: Math.floor(level/5),
         quarryNumb: level%2 === 0 ? 1 : 0,
         oasisNumb: level%2 === 1 ? 1 : 0,
