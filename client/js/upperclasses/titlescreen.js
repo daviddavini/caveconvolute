@@ -38,7 +38,7 @@ class TitleScreen extends Screen{
     }
   };
   oldExplorer(){
-    this.explorerInfo = {name:this.inputName.value().toLowerCase();, code:this.inputPass.value().toLowerCase();};
+    this.explorerInfo = {name:this.inputName.value().toLowerCase(), code:this.inputPass.value().toLowerCase()};
     this.socket.emit('loadAccount', {
       username: this.explorerInfo.name,
       password: this.explorerInfo.code
