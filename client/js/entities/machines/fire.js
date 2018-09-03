@@ -6,7 +6,7 @@ class Fire extends Entity {
     this.hp = this.maxHp;
     this.maxHealth = 3*60;
     Fire.totalMaxHealth += this.maxHealth;
-    this.health = 60;
+    this.health = this.maxHealth;
     Fire.totalHealth += this.health;
     this.healthIncrement = 30;
     this.maxSideLength = 4;
