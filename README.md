@@ -3,16 +3,15 @@ An RPG dungeon-crawler game: scurry your way through a paradoxically-connected h
 
 <div>
  <img src="https://user-images.githubusercontent.com/22968625/63205823-1350cf80-c05f-11e9-98a7-ec2d727302dc.png" 
-height="360"/>
+height="340" class="center" hspace="10">
  <img src="https://user-images.githubusercontent.com/22968625/63205829-2a8fbd00-c05f-11e9-9905-e8805f567c9d.png" 
-height="360"/>
+height="340" class="center" >
 </div>
-
 <div>
 <img src="https://user-images.githubusercontent.com/22968625/63205834-354a5200-c05f-11e9-8960-f038e813b581.png" 
-height="360" /> 
+height="340"  class="center" hspace="10"> 
 <img src="https://user-images.githubusercontent.com/22968625/63205837-41ceaa80-c05f-11e9-891d-b6d579083800.png" 
-height="360" />
+height="340" class="center" >
 </div>
 
 ## Behind the scenes: A Non-Euclidean Adventure
