@@ -17,5 +17,15 @@ height="340" class="center" >
 ## Behind the scenes: A Non-Euclidean Adventure
 Although at first glance the game seems like a normal rogue-like, there is more than meets the eye. The cave system that the player wanders through is actually a set of computer-generated pieces stitched together, creating infinite loops that would be impossible in normal Euclidean geometry. This makes each new game a fresh and perplexing escape puzzle!
 
-<img src="https://user-images.githubusercontent.com/22968625/63205588-835d5680-c05b-11e9-8bfc-c10d10da9f94.png" 
-height="400">
+<div>
+ <img src="https://user-images.githubusercontent.com/22968625/63205588-835d5680-c05b-11e9-8bfc-c10d10da9f94.png" 
+height="400" class="center" hspace="10">
+ <img src="https://user-images.githubusercontent.com/22968625/63206007-126d6d00-c062-11e9-98a3-05a7d8f8ef3b.png" 
+height="400" class="center" hspace="10">
+</div>
+<div>
+ <img src="https://user-images.githubusercontent.com/22968625/63206017-2b761e00-c062-11e9-8853-c8c8b893eee8.png" 
+height="400" class="center" hspace="10">
+ <img src="https://user-images.githubusercontent.com/22968625/63206023-39c43a00-c062-11e9-9d70-459d9024b1e4.png" 
+height="400" class="center" hspace="10">
+</div>
