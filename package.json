@@ -4,7 +4,7 @@
   "description": "A dungeon crawler RPG with strange caves...",
   "main": "app.js",
   "dependencies": {
-    "express": "^4.16.3",
+    "express": "^4.18.2",
     "mongojs": "^2.6.0",
     "socket.io": "^2.1.1"
   },
